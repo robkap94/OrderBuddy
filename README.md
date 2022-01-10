@@ -7,6 +7,9 @@ My first project on JavaFX - Simple manager for collecting orders and additional
 
 ## Usage
 
+Manager View - This is main window, where you can handle all of the orders.
+Queue View - This is second window, which may be moved to the second, plugged, screen set up nearby place where customers are waiting for their order.
+
 *TODO*
 
 ## Additional tips & tricks
