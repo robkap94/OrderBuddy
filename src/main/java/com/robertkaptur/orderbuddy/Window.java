@@ -10,12 +10,12 @@ import java.io.IOException;
 
 public class Window {
 
-    public Window(Stage windowStage, String fxmlLoader, int width, int height, double positionOnScreen) throws IOException {
+    public Window(Stage windowStage, String fxmlLoader, int width, int height, double positionOnScreen, String title) throws IOException {
 
         // Loading of the Manager View's window
         FXMLLoader windowFxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlLoader));
         Scene managerView = new Scene(windowFxmlLoader.load(), width, height);
-        windowStage.setTitle("Order Buddy - Manager View");
+        windowStage.setTitle(title);
         windowStage.setScene(managerView);
         windowStage.show();
         // Positioning Manager View's window

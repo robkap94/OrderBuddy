@@ -23,10 +23,10 @@ public class MainApplication extends Application {
     public static void launchWindows(Stage managerStage) {
         try {
             // Initialization of Manager Window
-            new Window(managerStage, "manager-view.fxml", 800, 600, 0.1);
+            new Window(managerStage, "manager-view.fxml", 800, 600, 0.1, "Order Buddy - Manager View");
             // Initialization of Queue Window
             Stage queueStage = new Stage();
-            new Window(queueStage, "queue-view.fxml", 480, 640, 0.9);
+            new Window(queueStage, "queue-view.fxml", 480, 640, 0.9, "Order Buddy - Queue View");
         } catch(IOException e) {
             e.printStackTrace();
         }
