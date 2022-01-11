@@ -1,23 +1,34 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
-        Scene managerView = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Order Buddy - Manager View");
-        stage.setScene(managerView);
-        stage.show();
+    public void start(Stage managerStage) {
+        //Initialization of the windows
+        launchWindows(managerStage);
+
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    // Method to initialize windows
+    // It takes first "Stage" container which is initially constructed by the platform, as a Manager Window
+    // Then creates second stage, as a Queue Window
+    public static void launchWindows(Stage managerStage) {
+        try {
+            // Initialization of Manager Window
+            new Window(managerStage, "manager-view.fxml", 800, 600, 0.1, "Order Buddy - Manager View");
+            // Initialization of Queue Window
+            Stage queueStage = new Stage();
+            new Window(queueStage, "queue-view.fxml", 480, 640, 0.9, "Order Buddy - Queue View");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }
