@@ -8,19 +8,27 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage managerStage) {
-        try {
-            // Initialization of Manager Window
-            new ManagerStage(managerStage);
-            // Initialization of Queue Window
-            Stage queueStage = new Stage();
-            new QueueStage(queueStage);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        //Initialization of the windows
+        launchWindows(managerStage);
 
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    // Method to initialize windows
+    // It takes first "Stage" container which is initially constructed by the platform, as a Manager Window
+    // Then creates second stage, as a Queue Window
+    public static void launchWindows(Stage managerStage) {
+        try {
+            // Initialization of Manager Window
+            new Window(managerStage, "manager-view.fxml", 800, 600, 0.1);
+            // Initialization of Queue Window
+            Stage queueStage = new Stage();
+            new Window(queueStage, "queue-view.fxml", 480, 640, 0.9);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }
