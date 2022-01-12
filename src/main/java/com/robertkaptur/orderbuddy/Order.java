@@ -24,6 +24,8 @@ public class Order {
         this.description = description;
         this.dateOfOrder = dateOfOrder;
         this.dateOfDelivery = dateOfDelivery;
+
+        // TODO - Adding order into order list right after creation
     }
 
     // Getters & Setters
@@ -42,7 +44,7 @@ public class Order {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     // Only Getter for ID, no Setter due to Auto-ID policy
     public int getId() {
         return id;
