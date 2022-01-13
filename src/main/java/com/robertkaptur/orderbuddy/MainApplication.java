@@ -1,6 +1,7 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -11,15 +12,15 @@ public class MainApplication extends Application {
 
     // Fields
     ListView<Order> orderListView;
-    ObservableList<Order> listOfOrders; // TODO - This should be ObservableList used to be populated by Order's Constructor
+    ObservableList<Order> listOfOrders = FXCollections.observableArrayList(); // TODO - This should be ObservableList used to be populated by Order's Constructor
 
     @Override
     public void start(Stage managerStage) {
         // Initialization of the windows
         launchWindows(managerStage);
         // Initialization of ListView of Orders
-        orderListView = new ListView<>(); // TODO - This will be used to code ListView
-        testOrders(); // Just created to populate a little bit testing objects
+        testOrders(); // Just created to populate a little of testing objects
+        orderListView = new ListView<Order>(listOfOrders); // TODO - This will be used to code ListView
     }
 
 

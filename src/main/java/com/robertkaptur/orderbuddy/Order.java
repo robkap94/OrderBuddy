@@ -4,6 +4,7 @@ public class Order {
 
     // Auto-ID counter
     private static int idCounter;
+    // Static ObservableList for orders
 
     // Fields
     private String title;
@@ -26,6 +27,7 @@ public class Order {
         this.dateOfDelivery = dateOfDelivery;
 
         // TODO - Adding order into order list right after creation
+
     }
 
     // Getters & Setters
