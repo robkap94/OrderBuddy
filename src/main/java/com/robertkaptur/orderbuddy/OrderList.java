@@ -3,10 +3,8 @@ package com.robertkaptur.orderbuddy;
 import java.util.ArrayList;
 
 public class OrderList {
+
     ArrayList<Order> listOfOrders;
-
-    // TODO - Create OrderList object which will be populated by Order objects
-
 
     public OrderList() {
         listOfOrders = new ArrayList<>();

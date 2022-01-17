@@ -1,32 +1,16 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class MainApplication extends Application {
-
-    // Fields
-    ListView<Order> orderListView;
 
     @Override
     public void start(Stage managerStage) {
         // Initialization of the windows
         launchWindows(managerStage);
-        // Initialization of ListView of Orders
-        OrderList listOfOrders = new OrderList();
-        Order first = new Order("Test first", "category 1", 21.37, "Najlepsze kremowki swiata", "17-03-2021", "18-03-2021");
-        Order second = new Order("Test second", "category 2", 37.21, "Najlepsze kotki swiata", "22-03-2021", "23-03-2021");
-        Order third = new Order("Test third", "category 3", 19.39, "Najlepsze krowki swiata", "11-03-2021", "12-03-2021");
-        listOfOrders.addOrderToList(first);
-        listOfOrders.addOrderToList(second);
-        listOfOrders.addOrderToList(third);
-        orderListView = new ListView<Order>();
-        ObservableList<Order> observableListOfOrders = FXCollections.observableArrayList(listOfOrders.getListOfOrders());
-        orderListView.setItems(observableListOfOrders); // TODO - This will be used to code ListView, in brackets need to type name of list to be used to populate orderListView
     }
 
     public static void main(String[] args) {

@@ -25,10 +25,6 @@ public class Order {
         this.description = description;
         this.dateOfOrder = dateOfOrder;
         this.dateOfDelivery = dateOfDelivery;
-
-        // TODO - Adding order into order list right after creation
-
-
     }
 
     // Getters & Setters
