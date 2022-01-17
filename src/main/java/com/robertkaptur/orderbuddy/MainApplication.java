@@ -6,11 +6,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApplication extends Application {
+
     @Override
     public void start(Stage managerStage) {
-        //Initialization of the windows
+        // Initialization of the windows
         launchWindows(managerStage);
-
     }
 
     public static void main(String[] args) {
