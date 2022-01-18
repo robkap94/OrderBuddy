@@ -1,12 +1,12 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -15,16 +15,18 @@ import java.util.Optional;
 public class ManagerController {
     // FXML Fields
     @FXML
-    ListView<String> ordersListView = new ListView<>();
+    ListView<Order> ordersListView = new ListView<>();
     @FXML
     BorderPane managerBorderPane;
 
     // Fields
-    ObservableList<String> titlesList = FXCollections.observableArrayList("Item 1", "Item 2", "Item 3"); // Test population TODO: Delete test population it after tests
+//    ObservableList<Order> ordersList = FXCollections.observableList(); //TODO: Populate it by observableList and uncomment
 
     @FXML
     public void initialize() {
-        ordersListView.setItems(titlesList); // TODO: Delete it after tests
+        ordersListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ordersListView.getSelectionModel().selectFirst();
+        ordersListView.setItems(FXCollections.observableArrayList());
     }
 
     @FXML
@@ -57,8 +59,8 @@ public class ManagerController {
         if((result.isPresent()) && (result.get() == ButtonType.OK)) {
             AddOrderDialogController controller = dialogLoader.getController();
             Order newOrder = controller.processOrder();
-            titlesList.add(newOrder.getTitle());
-            ordersListView.getSelectionModel().select(newOrder.getTitle());
+            // TODO: Add here newOrder into ObservableList
+            ordersListView.getSelectionModel().select(newOrder);
         }
     }
 }
