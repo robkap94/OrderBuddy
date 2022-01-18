@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class ManagerController {
     // FXML Fields
@@ -22,8 +23,12 @@ public class ManagerController {
     ObservableList<String> titlesList = FXCollections.observableArrayList("Item 1", "Item 2", "Item 3"); // Test population TODO: Delete test population it after tests
 
     @FXML
+    public void initialize() {
+        ordersListView.setItems(titlesList); // TODO: Delete it after tests
+    }
+
+    @FXML
     protected void onCreateButtonClicked() {
-//        ordersListView.setItems(titlesList); // TODO: Delete it after tests
         showCreateOrderDialog();
     }
 
@@ -47,6 +52,13 @@ public class ManagerController {
         dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
-        dialogWindow.showAndWait();
+        Optional<ButtonType> result = dialogWindow.showAndWait();
+
+        if((result.isPresent()) && (result.get() == ButtonType.OK)) {
+            AddOrderDialogController controller = dialogLoader.getController();
+            Order newOrder = controller.processOrder();
+            titlesList.add(newOrder.getTitle());
+            ordersListView.getSelectionModel().select(newOrder.getTitle());
+        }
     }
 }
