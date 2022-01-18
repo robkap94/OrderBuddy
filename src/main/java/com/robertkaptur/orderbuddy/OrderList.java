@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class OrderList {
 
+    // TODO: Double-check whether this class is required? At this point, I think it's redundant.
+    //       In case of any requirement, this may be created in the future.
+
     ArrayList<Order> listOfOrders;
 
     public OrderList() {
