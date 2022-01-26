@@ -1,12 +1,10 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -20,7 +18,8 @@ public class ManagerController {
     BorderPane managerBorderPane;
 
     // Fields
-//    ObservableList<Order> ordersList = FXCollections.observableList(); //TODO: Populate it by observableList and uncomment
+    ObservableList<Order> ordersList = FXCollections.observableArrayList();
+    OrderData orderData = OrderData.getInstance();
 
     @FXML
     public void initialize() {
@@ -35,7 +34,14 @@ public class ManagerController {
     }
 
     @FXML
+    protected void onEditButtonClicked() {
+    }
+
+    @FXML
     public void showCreateOrderDialog() {
+
+        // Initializing, declaring and processing Dialog Window to create Order
+
         Dialog<ButtonType> dialogWindow = new Dialog<>();
         dialogWindow.initOwner(managerBorderPane.getScene().getWindow());
         dialogWindow.setHeaderText("This is create Order dialog");
@@ -56,11 +62,36 @@ public class ManagerController {
 
         Optional<ButtonType> result = dialogWindow.showAndWait();
 
+        // Processing results of dialog window
+
         if((result.isPresent()) && (result.get() == ButtonType.OK)) {
             AddOrderDialogController controller = dialogLoader.getController();
             Order newOrder = controller.processOrder();
-            // TODO: Add here newOrder into ObservableList
-            ordersListView.getSelectionModel().select(newOrder);
+            ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
+            ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
+            ordersListView.setCellFactory(param -> new ListCell<Order>() { // Utilizing Cell Factory to ensure ListView is not named by object's hash but title
+                @Override
+                protected void updateItem(Order order, boolean b) {
+                    super.updateItem(order, b);
+
+                    if(b || order == null || order.getTitle() == null) {
+                        setText(null);
+                    } else {
+                        setText("id " + order.getId() + ": " + order.getTitle());
+                    }
+                }
+            });
+            ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
+            orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
+
+            //Saving database after file creation
+
+            try {
+                orderData.saveDatabase();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error during saving db file");
+            }
         }
     }
 }
