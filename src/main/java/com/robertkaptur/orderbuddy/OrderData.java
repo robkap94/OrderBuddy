@@ -3,13 +3,17 @@ package com.robertkaptur.orderbuddy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class OrderData {
 
@@ -17,8 +21,10 @@ public class OrderData {
     private final static String dbDir = "db";
     private final static String dbFile = "db.txt";
     private final static String dbFilename = dbDir + "/" + dbFile; // This will go to resources -> db -> db file
+    private final static Path path = Paths.get(dbFilename);
 
     private DateTimeFormatter formatter;
+    private DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // To be utilized during saving db
     private ObservableList<Order> listOfOrders = FXCollections.observableArrayList();
 
     private OrderData() {
@@ -46,31 +52,49 @@ public class OrderData {
         listOfOrders.remove(order);
     }
 
-    public void loadDatabase() {
-        /* TODO: Prepare loading sequence:
-        0) Create buffered reader with path
-        1) listOfOrders needs to be initialized as a ObservableArrayList from FXCollections
-        2) Path object which will check (whether exists) and creates when required db file & will mark this path
-        3) Load parts of object into separated vars
-        4) Create object
-        5) Add it into FXCollections.observableList (NOT observableArrayList)
-        6) Add "finally" to close the bufferedReader
+    public void loadDatabase() throws IOException {
+        System.out.println("Abs " + path.toAbsolutePath().toString()); // TODO delete after tests
 
-        PLEASE NOTICE TO REBUILD Dates in object creation:
-        a) Date of Creation is CURRENT DATE in ISO_LOCAL_DATE_TIME
-        b) Date of Delivery is NULL
+        if (Files.exists(path)) { // Check whether db file exists
+            System.out.println("DB file exists, proceeding");
+        } else {
+            System.out.println("DB file not exists, cancelling db loading procedure");
+            return;
+        }
 
-        PS. I have created separated branch for this!!!
-        TODO: Delete feature-33-OrderData branch later on*/
+        BufferedReader bufferedReader = Files.newBufferedReader(path);
+
+        try {
+            String orderInput;
+
+            while((orderInput = bufferedReader.readLine()) != null) {
+                String[] orderArgs = orderInput.split("\t");
+
+                int id = Integer.parseInt(orderArgs[0]);
+                String title = orderArgs[1];
+                String category = orderArgs[2];
+                Double price = Double.parseDouble(orderArgs[3]);
+                String description = orderArgs[4];
+                String dateOfOrder = orderArgs[5];
+                String dateOfDelivery = orderArgs[6];
+
+                Order importedOrder = new Order(title, category, price, description, dateOfOrder, dateOfDelivery, id);
+                addOrder(importedOrder); // Adding order into OrderData's list (observableArrayList), which will be utilized by ListView
+            }
+        } finally { // Buffer closure
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+        }
+
     }
 
     public void saveDatabase() throws IOException {
-        Path path = Paths.get(dbFilename);
         System.out.println("Abs " + path.toAbsolutePath().toString()); // TODO delete after tests
 
-        try {
+        try { // Check whether dir exists
             System.out.println("Parent dir of db: " + path.getParent().toAbsolutePath().toString()); // TODO delete after tests
-            Files.createDirectories(path.getParent()); // Check whether dir exists
+            Files.createDirectories(path.getParent());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error during db's dir existence checking or creation after checking");
@@ -79,24 +103,23 @@ public class OrderData {
         BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
 
         try {
-
             Iterator<Order> iter = listOfOrders.iterator();
-            while(iter.hasNext()) {
+            while (iter.hasNext()) {
                 Order order = iter.next();
-                bufferedWriter.write(String.format("%d\t%s\t%s\t%.2f\t%s\t%s\t%s",
+                bufferedWriter.write(String.format("%d\t%s\t%s\t%s\t%s\t%s\t%s",
                         order.getId(),
                         order.getTitle(),
                         order.getCategory(),
-                        order.getPrice(),
+                        decimalFormatter.format(order.getPrice()), // price is saved, as a string, with decFormatter (X.XX)
                         order.getDescription(),
                         // TODO: Ensure to change later these two below %s into actual date-format (Maybe it can be also saved like string but with format?
                         order.getDateOfOrder(),
                         order.getDateOfDelivery()));
-                System.out.println("Added " + order.getTitle() + " into db file"); // test sout TODO: Delete after tests
+                System.out.println("Added " + order.getTitle() + " into db file"); // TODO: Delete after tests
                 bufferedWriter.newLine();
             }
-        } finally {
-            if(bufferedWriter != null) {
+        } finally { // Buffer closure
+            if (bufferedWriter != null) {
                 bufferedWriter.close();
             }
         }

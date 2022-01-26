@@ -23,9 +23,12 @@ public class ManagerController {
 
     @FXML
     public void initialize() {
-        ordersListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ordersListView.getSelectionModel().selectFirst();
-        ordersListView.setItems(FXCollections.observableArrayList());
+        ordersList.setAll(orderData.getListOfOrders()); // observableArrayList in ManagerControl, is populated by observableArrayList from OrderData
+
+        ordersListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // Setting selection model
+        ordersListView.getSelectionModel().selectFirst(); // Will be selected first, existing, order
+        ordersListView.setItems(ordersList); // Setting ListView for items from ordersList (observableArrayList)
+        updateListViewCellFactory(); // Setting up proper way of updating cells in ListView's CellFactory
     }
 
     @FXML
@@ -69,18 +72,6 @@ public class ManagerController {
             Order newOrder = controller.processOrder();
             ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
             ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
-            ordersListView.setCellFactory(param -> new ListCell<Order>() { // Utilizing Cell Factory to ensure ListView is not named by object's hash but title
-                @Override
-                protected void updateItem(Order order, boolean b) {
-                    super.updateItem(order, b);
-
-                    if(b || order == null || order.getTitle() == null) {
-                        setText(null);
-                    } else {
-                        setText("id " + order.getId() + ": " + order.getTitle());
-                    }
-                }
-            });
             ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
             orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
 
@@ -93,5 +84,20 @@ public class ManagerController {
                 System.out.println("Error during saving db file");
             }
         }
+    }
+
+    private void updateListViewCellFactory() {
+        ordersListView.setCellFactory(param -> new ListCell<>() { // Utilizing Cell Factory to ensure ListView is not named by object's hash but id + title
+            @Override
+            protected void updateItem(Order order, boolean b) {
+                super.updateItem(order, b);
+
+                if(b || order == null || order.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText("id " + order.getId() + ": " + order.getTitle());
+                }
+            }
+        });
     }
 }

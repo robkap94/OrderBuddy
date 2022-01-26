@@ -1,1 +1,4 @@
-0	tits1	cats1	1,23	desc2	Some date of order	Some date of delivery
+0	ss	ss	2.00	ss	Some date of order	Some date of delivery
+1	item2	cat3	2.22	desc2	Some date of order	Some date of delivery
+2	test3	cat3	3.33	desc3	Some date of order	Some date of delivery
+4	tit5	cat5	5.55	desc5	Some date of order	Some date of delivery
