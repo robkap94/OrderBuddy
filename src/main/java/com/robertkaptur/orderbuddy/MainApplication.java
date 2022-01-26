@@ -17,6 +17,28 @@ public class MainApplication extends Application {
         launch();
     }
 
+    @Override
+    public void init() throws Exception {
+        try {
+            OrderData.getInstance().loadDatabase();
+            System.out.println("DB loaded successfully");
+        } catch (IOException e) {
+            System.out.println("Error during loading db (init() of main)"); // TODO: Delete after tests
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() throws Exception {
+        try {
+            OrderData.getInstance().saveDatabase();
+            System.out.println("DB saved successfully");
+        } catch (IOException e) {
+            System.out.println("Error during saving db (stop() of main)"); // TODO: Delete after tests
+            e.printStackTrace();
+        }
+    }
+
     // Method to initialize windows
     // It takes first "Stage" container which is initially constructed by the platform, as a Manager Window
     // Then creates second stage, as a Queue Window

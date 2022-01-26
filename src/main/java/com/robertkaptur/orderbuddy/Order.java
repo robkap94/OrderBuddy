@@ -14,8 +14,9 @@ public class Order {
     private String description;
     private String dateOfOrder;
     private String dateOfDelivery;
+    private boolean isImported;
 
-    // Constructor
+    // Constructor for standard creation
     public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery) {
         this.title = title;
         this.id = idCounter;
@@ -25,6 +26,24 @@ public class Order {
         this.description = description;
         this.dateOfOrder = dateOfOrder;
         this.dateOfDelivery = dateOfDelivery;
+    }
+
+    // Constructor for imported db
+    public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery, int id) {
+        this.title = title;
+        this.id = id;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+        this.dateOfOrder = dateOfOrder;
+        this.dateOfDelivery = dateOfDelivery;
+
+        // Checker for idCounter after importing db to ensure that it's higher than last id from import
+        if(idCounter <= id) {
+            idCounter = id + 1;
+            System.out.println("Current id loaded is: " + id); // TODO: Delete after tests
+            System.out.println("Current idCounter is: " + idCounter); // TODO: Delete after tests
+        }
     }
 
     // Getters & Setters
