@@ -16,6 +16,22 @@ Queue View - This is second window, which may be moved to the second, plugged, s
 
 *TODO*
 
+## Timelog
+
+### Pre-alpha version
+Planned date of start: 10/01/2022
+Actual date of start: 10/01/2022
+Scope of time: 3 weeks
+Planned deadline: 31/01/2022
+Finished on: not yet
+
+### Alpha version
+Planned date of start: 01/02/2022
+Actual date of start: not yet
+Scope of time: 3 weeks
+Planned deadline: 31/01/2022
+Finished on: not yet
+
 ## Contributing
 
 *TODO*
