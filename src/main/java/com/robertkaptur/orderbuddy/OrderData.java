@@ -45,7 +45,6 @@ public class OrderData {
 
     public void addOrder(Order order) {
         listOfOrders.add(order);
-        System.out.println("Added order with title " + order.getTitle() + " to the OrderData list"); // Test sout TODO: Delete after tests
     }
 
     public void deleteOrder(Order order) {
@@ -53,8 +52,6 @@ public class OrderData {
     }
 
     public void loadDatabase() throws IOException {
-        System.out.println("Abs " + path.toAbsolutePath().toString()); // TODO delete after tests
-
         if (Files.exists(path)) { // Check whether db file exists
             System.out.println("DB file exists, proceeding");
         } else {
@@ -90,10 +87,8 @@ public class OrderData {
     }
 
     public void saveDatabase() throws IOException {
-        System.out.println("Abs " + path.toAbsolutePath().toString()); // TODO delete after tests
 
         try { // Check whether dir exists
-            System.out.println("Parent dir of db: " + path.getParent().toAbsolutePath().toString()); // TODO delete after tests
             Files.createDirectories(path.getParent());
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +110,6 @@ public class OrderData {
                         // TODO: Ensure to change later these two below %s into actual date-format (Maybe it can be also saved like string but with format?
                         order.getDateOfOrder(),
                         order.getDateOfDelivery()));
-                System.out.println("Added " + order.getTitle() + " into db file"); // TODO: Delete after tests
                 bufferedWriter.newLine();
             }
         } finally { // Buffer closure
