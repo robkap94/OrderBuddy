@@ -33,7 +33,25 @@ Finished on: not yet
 Planned date of start: 01/02/2022  
 Actual date of start: not yet  
 Scope of time: 3 weeks  
-Planned deadline: 31/01/2022  
+Planned deadline: 20/02/2022  
+Finished on: not yet  
+
+
+### Beta version  
+
+Planned date of start: 21/02/2022  
+Actual date of start: not yet  
+Scope of time: 2 weeks  
+Planned deadline: 06/03/2022  
+Finished on: not yet  
+
+
+### Stable version - 1.0  
+
+Planned date of start: 07/03/2022  
+Actual date of start: not yet  
+Scope of time: 1 week  
+Planned deadline: 13/03/2022  
 Finished on: not yet  
 
 
