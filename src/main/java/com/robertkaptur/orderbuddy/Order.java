@@ -14,7 +14,6 @@ public class Order {
     private String description;
     private String dateOfOrder;
     private String dateOfDelivery;
-    private boolean isImported;
 
     // Constructor for standard creation
     public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery) {
