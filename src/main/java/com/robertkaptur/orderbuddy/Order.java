@@ -20,7 +20,9 @@ public class Order {
     public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery) {
         this.title = title;
         this.id = idCounter;
-        idCounter++; // To increment idCounter, per each created object of this class, for Auto-ID purposes
+        System.out.println("idCounter before increasing (Constructor of Order) = " + getIdCounter()); // TODO: Delete after tests
+        setIdCounter(idCounter + 1);
+        System.out.println("idCounter after increasing (Constructor of Order) = " + getIdCounter()); // TODO: Delete after tests
         this.category = category;
         this.price = price;
         this.description = description;
@@ -40,7 +42,7 @@ public class Order {
 
         // Checker for idCounter after importing db to ensure that it's higher than last id from import
         if(idCounter <= id) {
-            idCounter = id + 1;
+            setIdCounter(id + 1);
             System.out.println("Current id loaded is: " + id); // TODO: Delete after tests
             System.out.println("Current idCounter is: " + idCounter); // TODO: Delete after tests
         }
