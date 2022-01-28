@@ -7,3 +7,4 @@
 7	tit7	cat7	7.77	desc7	Some date of order	Some date of delivery
 10	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
 13	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+14	FinalTest	FinalCat	98.76	Final description for testing	Some date of order	Some date of delivery

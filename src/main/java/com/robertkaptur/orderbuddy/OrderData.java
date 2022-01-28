@@ -53,9 +53,7 @@ public class OrderData {
 
     public void loadDatabase() throws IOException {
         if (Files.exists(path)) { // Check whether db file exists
-            System.out.println("DB file exists, proceeding");
         } else {
-            System.out.println("DB file not exists, cancelling db loading procedure");
             return;
         }
 
@@ -92,7 +90,6 @@ public class OrderData {
             Files.createDirectories(path.getParent());
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error during db's dir existence checking or creation after checking");
         }
 
         BufferedWriter bufferedWriter = Files.newBufferedWriter(path);

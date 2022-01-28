@@ -21,7 +21,6 @@ public class MainApplication extends Application {
     public void init() throws Exception {
         try {
             OrderData.getInstance().loadDatabase();
-            System.out.println("DB loaded successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,7 +30,6 @@ public class MainApplication extends Application {
     public void stop() throws Exception {
         try {
             OrderData.getInstance().saveDatabase();
-            System.out.println("DB saved successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }

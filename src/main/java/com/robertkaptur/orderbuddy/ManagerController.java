@@ -56,7 +56,6 @@ public class ManagerController {
         try {
             dialogWindow.getDialogPane().setContent(dialogLoader.load());
         } catch (IOException e) {
-            System.out.println("Couldn't load the dialog, error during loading FXML of Dialog");
             e.printStackTrace();
         }
 
@@ -81,7 +80,6 @@ public class ManagerController {
                 orderData.saveDatabase();
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Error during saving db file");
             }
         }
     }
