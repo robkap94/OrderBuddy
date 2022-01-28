@@ -17,6 +17,7 @@ import java.util.Locale;
 public class OrderData {
 
     // Final fields
+    
     private final static OrderData instance = new OrderData(); // Creating one, static, instance of OrderData
     private final static String dbDir = "db";
     private final static String dbFile = "db.txt";
