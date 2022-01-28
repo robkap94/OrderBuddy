@@ -16,18 +16,16 @@ public class AddOrderDialogController {
     @FXML
     TextArea descriptionTextArea;
 
-    public Order processOrder() {
+    public Order processOrder() { // Processing order in window dialog
         String title = titleTextField.getText().trim();
         String category = categoryTextField.getText().trim();
         double price = Double.parseDouble(priceTextField.getText().trim());
         String description = descriptionTextArea.getText().trim();
 
-        Order newOrder = new Order(title, category, price, description, "Some date of order", "Some date of delivery");
-/*        TODO:
-        PLEASE NOTICE TO REBUILD Dates in object creation:
+        return new Order(title, category, price, description, "Some date of order", "Some date of delivery");
+
+        /*TODO: PLEASE NOTICE TO REBUILD Dates in object creation:
         a) Date of Creation is CURRENT DATE in ISO_LOCAL_DATE_TIME
         b) Date of Delivery is NULL*/
-
-        return newOrder;
     }
 }

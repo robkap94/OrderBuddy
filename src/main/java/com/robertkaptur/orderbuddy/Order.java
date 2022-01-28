@@ -3,12 +3,11 @@ package com.robertkaptur.orderbuddy;
 public class Order {
 
     // Auto-ID counter
-    private static int idCounter;
-    // Static ObservableList for orders
+    private static int idCounter; // Static counter, as it is increasing per each created object in this class
 
     // Fields
     private String title;
-    private int id; // Will be auto-id, that's why static
+    private final int id; // Will be auto-id, hence auto-assigned id from idCounter or, during import, from db - it's final, because only assigned during obj init
     private String category; // Will be just a String-type field for pre-alpha
     private double price;
     private String description;
@@ -44,6 +43,7 @@ public class Order {
     }
 
     // Getters & Setters
+
     public static int getIdCounter() {
         return idCounter;
     }
@@ -60,8 +60,7 @@ public class Order {
         this.title = title;
     }
 
-    // Only Getter for ID, no Setter due to Auto-ID policy
-    public int getId() {
+    public int getId() {// Only Getter for ID, no Setter due to Auto-ID policy
         return id;
     }
 

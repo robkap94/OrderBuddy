@@ -4,8 +4,21 @@ import org.junit.jupiter.api.*;
 
 class OrderTest {
 
-    private Order order = new Order("Test", "Test-Category", 8.88, "Some test description", "Some test date of order", "Some test date of delivery");
-    private Order orderImported = new Order("Test-Imported", "Test-Category", 18.88, "Some test description", "Some test date of order", "Some test date of delivery", 17031994);
+    private Order order = new Order(
+            "Test",
+            "Test-Category",
+            8.88,
+            "Some test description",
+            "Some test date of order",
+            "Some test date of delivery");
+    private Order orderImported = new Order(
+            "Test-Imported",
+            "Test-Category",
+            18.88,
+            "Some test description",
+            "Some test date of order",
+            "Some test date of delivery",
+            17031994);
 
     @Test
     @DisplayName("Testing Order's class object creation")

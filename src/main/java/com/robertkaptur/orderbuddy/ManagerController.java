@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class ManagerController {
+
     // FXML Fields
     @FXML
     ListView<Order> ordersListView = new ListView<>();
@@ -22,7 +23,7 @@ public class ManagerController {
     OrderData orderData = OrderData.getInstance();
 
     @FXML
-    public void initialize() {
+    public void initialize() { // During init of ManagerController
         ordersList.setAll(orderData.getListOfOrders()); // observableArrayList in ManagerControl, is populated by observableArrayList from OrderData
 
         ordersListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // Setting selection model
@@ -41,7 +42,7 @@ public class ManagerController {
     }
 
     @FXML
-    public void showCreateOrderDialog() {
+    public void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
 
         // Initializing, declaring and processing Dialog Window to create Order
 
@@ -84,7 +85,7 @@ public class ManagerController {
         }
     }
 
-    private void updateListViewCellFactory() {
+    private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour
         ordersListView.setCellFactory(param -> new ListCell<>() { // Utilizing Cell Factory to ensure ListView is not named by object's hash but id + title
             @Override
             protected void updateItem(Order order, boolean b) {
@@ -93,7 +94,7 @@ public class ManagerController {
                 if(b || order == null || order.getTitle() == null) {
                     setText(null);
                 } else {
-                    setText("id " + order.getId() + ": " + order.getTitle());
+                    setText("id " + order.getId() + ": " + order.getTitle()); // Setting up pattern of order's name in the ListView
                 }
             }
         });

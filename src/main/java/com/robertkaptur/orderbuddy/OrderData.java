@@ -12,24 +12,24 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.Locale;
 
 public class OrderData {
 
-    private final static OrderData instance = new OrderData();
+    // Final fields
+    private final static OrderData instance = new OrderData(); // Creating one, static, instance of OrderData
     private final static String dbDir = "db";
     private final static String dbFile = "db.txt";
     private final static String dbFilename = dbDir + "/" + dbFile; // This will go to resources -> db -> db file
     private final static Path path = Paths.get(dbFilename);
+    private final DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // Utilized during saving db
+    private final ObservableList<Order> listOfOrders = FXCollections.observableArrayList(); // Declaring list of orders as JavaFX's observableArrayList
 
-    private DateTimeFormatter formatter;
-    private DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // To be utilized during saving db
-    private ObservableList<Order> listOfOrders = FXCollections.observableArrayList();
-
-    private OrderData() {
-        formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private OrderData() { // Constructor (private) - For Singleton purposes, to ensure that no second OrderData instance will be created
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // TODO: Check how it can be utilized in the future (I don't remember idea behind it)
     }
+
+    // Getters
 
     public static OrderData getInstance() {
         return instance;
@@ -43,6 +43,8 @@ public class OrderData {
         return listOfOrders;
     }
 
+    // Operations on OrderData
+
     public void addOrder(Order order) {
         listOfOrders.add(order);
     }
@@ -51,40 +53,38 @@ public class OrderData {
         listOfOrders.remove(order);
     }
 
-    public void loadDatabase() throws IOException {
+    public void loadDatabase() throws IOException { // Method to load db
+
         if (Files.exists(path)) { // Check whether db file exists
+
+
+
+            try (BufferedReader bufferedReader = Files.newBufferedReader(path)) { // Creating Buffer by try-with-resources
+                String orderInput;
+
+                while ((orderInput = bufferedReader.readLine()) != null) { // Opening Buffer
+                    String[] orderArgs = orderInput.split("\t"); // tab splits arguments of an object
+
+                    int id = Integer.parseInt(orderArgs[0]);
+                    String title = orderArgs[1];
+                    String category = orderArgs[2];
+                    double price = Double.parseDouble(orderArgs[3]);
+                    String description = orderArgs[4];
+                    String dateOfOrder = orderArgs[5];
+                    String dateOfDelivery = orderArgs[6];
+
+                    Order importedOrder = new Order(title, category, price, description, dateOfOrder, dateOfDelivery, id);
+                    addOrder(importedOrder); // Adding order into OrderData's list (observableArrayList), which will be utilized by ListView
+                }
+            }
+
         } else {
-            return;
-        }
-
-        BufferedReader bufferedReader = Files.newBufferedReader(path);
-
-        try {
-            String orderInput;
-
-            while((orderInput = bufferedReader.readLine()) != null) {
-                String[] orderArgs = orderInput.split("\t");
-
-                int id = Integer.parseInt(orderArgs[0]);
-                String title = orderArgs[1];
-                String category = orderArgs[2];
-                Double price = Double.parseDouble(orderArgs[3]);
-                String description = orderArgs[4];
-                String dateOfOrder = orderArgs[5];
-                String dateOfDelivery = orderArgs[6];
-
-                Order importedOrder = new Order(title, category, price, description, dateOfOrder, dateOfDelivery, id);
-                addOrder(importedOrder); // Adding order into OrderData's list (observableArrayList), which will be utilized by ListView
-            }
-        } finally { // Buffer closure
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
+            // TODO: Create error pop-up to inform that db file has not been found
         }
 
     }
 
-    public void saveDatabase() throws IOException {
+    public void saveDatabase() throws IOException { // Method to save db
 
         try { // Check whether dir exists
             Files.createDirectories(path.getParent());
@@ -92,13 +92,9 @@ public class OrderData {
             e.printStackTrace();
         }
 
-        BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
-
-        try {
-            Iterator<Order> iter = listOfOrders.iterator();
-            while (iter.hasNext()) {
-                Order order = iter.next();
-                bufferedWriter.write(String.format("%d\t%s\t%s\t%s\t%s\t%s\t%s",
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path)) { // Creating Buffer by try-with-resources
+            for (Order order : listOfOrders) {
+                bufferedWriter.write(String.format("%d\t%s\t%s\t%s\t%s\t%s\t%s", // Opening Buffer + String format of saving file in db
                         order.getId(),
                         order.getTitle(),
                         order.getCategory(),
@@ -107,11 +103,7 @@ public class OrderData {
                         // TODO: Ensure to change later these two below %s into actual date-format (Maybe it can be also saved like string but with format?
                         order.getDateOfOrder(),
                         order.getDateOfDelivery()));
-                bufferedWriter.newLine();
-            }
-        } finally { // Buffer closure
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+                bufferedWriter.newLine(); // Ending line, for particular object, and starting line for new object found by iterator in list of orders
             }
         }
     }

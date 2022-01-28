@@ -8,17 +8,17 @@ import java.io.IOException;
 public class MainApplication extends Application {
 
     @Override
-    public void start(Stage managerStage) {
+    public void start(Stage managerStage) { // At the start of an app
         // Initialization of the windows
         launchWindows(managerStage);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // main method, just to launch windows (at the moment)
         launch();
     }
 
     @Override
-    public void init() throws Exception {
+    public void init() { // During init of app, database is loaded
         try {
             OrderData.getInstance().loadDatabase();
         } catch (IOException e) {
@@ -27,7 +27,7 @@ public class MainApplication extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() { // During stop of app, database is saved
         try {
             OrderData.getInstance().saveDatabase();
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class MainApplication extends Application {
         }
     }
 
-    // Method to initialize windows
+    // Current method to initialize windows
     // It takes first "Stage" container which is initially constructed by the platform, as a Manager Window
     // Then creates second stage, as a Queue Window
     public static void launchWindows(Stage managerStage) {

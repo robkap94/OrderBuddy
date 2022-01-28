@@ -8,3 +8,10 @@
 10	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
 13	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
 14	FinalTest	FinalCat	98.76	Final description for testing	Some date of order	Some date of delivery
+15	FinalFinalTests	Cat2213213	21.33	desccccc	Some date of order	Some date of delivery
+18	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+21	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+24	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+25	New test	cat22	2.22	desc5	Some date of order	Some date of delivery
+28	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+29	FinalLastTest	cat2	2.22	desc	Some date of order	Some date of delivery
