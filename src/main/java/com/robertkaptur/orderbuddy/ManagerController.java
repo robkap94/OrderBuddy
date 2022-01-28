@@ -1,5 +1,6 @@
 package com.robertkaptur.orderbuddy;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,6 +41,13 @@ public class ManagerController {
     @FXML
     protected void onEditButtonClicked() {
     }
+
+    @FXML
+    protected void onCloseMenuItemClicked() {
+        Platform.exit();
+    }
+
+
 
     @FXML
     public void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
