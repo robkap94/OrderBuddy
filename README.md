@@ -25,7 +25,7 @@ Planned date of start: 10/01/2022
 Actual date of start: 10/01/2022  
 Scope of time: 3 weeks  
 Planned deadline: 31/01/2022  
-Finished on: not yet  
+Finished on: 28/01/2022
 
 
 ### Alpha version  
