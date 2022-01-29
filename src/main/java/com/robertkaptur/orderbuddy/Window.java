@@ -1,12 +1,16 @@
 package com.robertkaptur.orderbuddy;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -37,6 +41,21 @@ public class Window {
         Rectangle2D windowViewBounds = Screen.getPrimary().getVisualBounds();
         double windowPosX = windowViewBounds.getMinX() + (windowViewBounds.getWidth() - managerView.getWidth()) * positionOnScreen;
         windowStage.setX(windowPosX);
-        windowStage.setOnCloseRequest(windowEvent -> Platform.exit()); // Auto-closure, of whole app, when window is closed. This will close other window too.
+        windowStage.setOnCloseRequest(new EventHandler<WindowEvent>() { // Auto-closure, of whole app, when window is closed. This will close other window too.
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                showExitConfirmationDialog();
+                windowEvent.consume();
+            }
+        });
+    }
+
+    public void showExitConfirmationDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES) {
+            Platform.exit();
+        }
     }
 }
