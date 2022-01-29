@@ -18,6 +18,8 @@ public class ManagerController {
     ListView<Order> ordersListView = new ListView<>();
     @FXML
     BorderPane managerBorderPane;
+    @FXML
+    MenuItem closeMenuItem;
 
     // Fields
     ObservableList<Order> ordersList = FXCollections.observableArrayList();
@@ -43,8 +45,18 @@ public class ManagerController {
     }
 
     @FXML
-    protected void onCloseMenuItemClicked() {
-        Platform.exit();
+    protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
+        /*
+        This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in Window class).
+        More info in task (issue) number #34, in comments.
+         */
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if(alert.getResult() == ButtonType.YES) {
+            Platform.exit();
+        }
+        managerBorderPane.getScene().getWindow()
     }
 
 

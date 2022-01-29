@@ -17,3 +17,4 @@
 29	FinalLastTest	cat2	2.22	desc	Some date of order	Some date of delivery
 30	Burrito	Jedzenie	19.99	Burrito, bez kukurydzy ale z groszkiem	Some date of order	Some date of delivery
 33	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
+36	Test	Test-Category	8.88	Some test description	Some test date of order	Some test date of delivery
