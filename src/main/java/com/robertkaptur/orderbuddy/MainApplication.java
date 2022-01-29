@@ -13,8 +13,8 @@ public class MainApplication extends Application {
         launchWindows(managerStage);
     }
 
-    public static void main(String[] args) { // main method, just to launch windows (at the moment)
-        launch();
+    public static void main(String[] args) {
+        launch(); // launches windows
     }
 
     @Override
