@@ -1,5 +1,6 @@
 package com.robertkaptur.orderbuddy;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -36,5 +37,6 @@ public class Window {
         Rectangle2D windowViewBounds = Screen.getPrimary().getVisualBounds();
         double windowPosX = windowViewBounds.getMinX() + (windowViewBounds.getWidth() - managerView.getWidth()) * positionOnScreen;
         windowStage.setX(windowPosX);
+        windowStage.setOnCloseRequest(windowEvent -> Platform.exit()); // Auto-closure, of whole app, when window is closed. This will close other window too.
     }
 }
