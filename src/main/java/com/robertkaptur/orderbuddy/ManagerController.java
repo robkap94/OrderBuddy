@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -51,6 +52,7 @@ public class ManagerController {
         More info in task (issue) number #34, in comments.
          */
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
+        alert.initStyle(StageStyle.TRANSPARENT);
         alert.showAndWait();
 
         if(alert.getResult() == ButtonType.YES) {

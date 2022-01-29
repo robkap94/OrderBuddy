@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class Window {
 
     public void showExitConfirmationDialog() { // Opens additional confirmation dialog when clicked window's exit icon (X)
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
+        alert.initStyle(StageStyle.TRANSPARENT);
         alert.showAndWait();
 
         if(alert.getResult() == ButtonType.YES) {
