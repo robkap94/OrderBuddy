@@ -56,7 +56,6 @@ public class ManagerController {
         if(alert.getResult() == ButtonType.YES) {
             Platform.exit();
         }
-        managerBorderPane.getScene().getWindow()
     }
 
 
