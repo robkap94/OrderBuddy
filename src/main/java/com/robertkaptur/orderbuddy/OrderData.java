@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
@@ -17,19 +18,37 @@ import java.util.Locale;
 public class OrderData {
 
     // Final fields
-
     private final static OrderData instance = new OrderData(); // Creating one, static, instance of OrderData
     private final static String dbDir = "db";
     private final static String dbFile = "db.txt";
     private final static String dbName = "database.db";
     private final static String dbFilename = dbDir + "/" + dbFile; // This will go to resources -> db -> db file
     private final static Path path = Paths.get(dbFilename);
+
     private final DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // Utilized during saving db
     private final ObservableList<Order> listOfOrders = FXCollections.observableArrayList(); // Declaring list of orders as JavaFX's observableArrayList
 
-    private OrderData() { // Constructor (private) - For Singleton purposes, to ensure that no second OrderData instance will be created
+    // SQL
+    private final static String QUERY_CREATE_TABLE_ORDERS = "CREATE TABLE \"orders\" (\n" +
+            "\t\"id\"\tINTEGER NOT NULL UNIQUE,\n" +
+            "\t\"title\"\tTEXT NOT NULL,\n" +
+            "\t\"id_category\"\tINTEGER NOT NULL,\n" +
+            "\t\"price\"\tNUMERIC NOT NULL,\n" +
+            "\t\"description\"\tTEXT NOT NULL,\n" +
+            "\t\"date_of_order\"\tTEXT NOT NULL,\n" +
+            "\t\"date_of_delivery\"\tTEXT,\n" +
+            "\tPRIMARY KEY(\"id\")\n" +
+            ")";
+    private final static String QUERY_CREATE_TABLE_CATEGORIES = "CREATE TABLE \"categories\" (\n" +
+            "\t\"id\"\tINTEGER NOT NULL UNIQUE,\n" +
+            "\t\"category_name\"\tTEXT NOT NULL,\n" +
+            "\tPRIMARY KEY(\"id\")\n" +
+            ")";
 
+    private OrderData() { // Constructor (private) - For Singleton purposes, to ensure that no second OrderData instance will be created
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // TODO: Check how it can be utilized in the future (I don't remember idea behind it)
+
+        createNewDatabase();
     }
 
     // Getters
@@ -112,11 +131,42 @@ public class OrderData {
     }
 
     private void createNewDatabase() {
+        // Checks if database exists, if not - creates new one
+
         String dbLocation = dbDir + "/" + dbName; // This will go to resources -> db -> db file
-        Path path = Paths.get(dbLocation);
-        String dbUrl = "jdbc:sqlite:" + path.toString();
+        Path dbPath = Paths.get(dbLocation);
+        String dbUrl = "jdbc:sqlite:" + dbPath.toString();
 
+        System.out.println(dbUrl); // TODO: Delete after tests
+        // Checking whether tables exist, if not - creating new ones
 
-        // TODO: This should be Singleton (once created, shouldn't be recreated in the future) + rest of code to establish db
+        try (Connection connection = DriverManager.getConnection(dbUrl)){
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                if(!checkExistingTable("orders", connection)) {
+                    statement.execute(QUERY_CREATE_TABLE_ORDERS);
+                    System.out.println("Missing table orders - Creating new one");
+                } else {
+                    System.out.println("Not creating table orders - It already exists");
+                }
+                if(!checkExistingTable("categories", connection)) {
+                    statement.execute(QUERY_CREATE_TABLE_CATEGORIES);
+                    System.out.println("Missing table categories - Creating new one");
+                } else {
+                    System.out.println("Not creating table orders - It already exists");
+                }
+            } else {
+                System.out.println("Error with loading SQL database");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkExistingTable(String tableName, Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+        ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+
+        return resultSet.next();
     }
 }

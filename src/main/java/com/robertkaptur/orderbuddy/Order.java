@@ -11,8 +11,9 @@ public class Order {
     private String category; // Will be just a String-type field for pre-alpha
     private double price;
     private String description;
-    private String dateOfOrder;
-    private String dateOfDelivery;
+    private String dateOfOrder; // Should be in ISO8601 strings for SQL db
+    private String dateOfDelivery; // Should be in ISO8601 strings for SQL db
+
 
     // Constructor for standard creation
     public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery) {
@@ -26,7 +27,7 @@ public class Order {
         this.dateOfDelivery = dateOfDelivery;
     }
 
-    // Constructor for imported db
+    // Constructor for loaded db
     public Order(String title, String category, double price, String description, String dateOfOrder, String dateOfDelivery, int id) {
         this.title = title;
         this.id = id;
