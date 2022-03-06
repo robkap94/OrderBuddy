@@ -115,5 +115,8 @@ public class OrderData {
         String dbLocation = dbDir + "/" + dbName; // This will go to resources -> db -> db file
         Path path = Paths.get(dbLocation);
         String dbUrl = "jdbc:sqlite:" + path.toString();
+
+
+        // TODO: This should be Singleton (once created, shouldn't be recreated in the future) + rest of code to establish db
     }
 }
