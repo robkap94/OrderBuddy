@@ -3,7 +3,6 @@ package com.robertkaptur.orderbuddy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +27,10 @@ public class OrderData {
     private final DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // Utilized during saving db
     private final ObservableList<Order> listOfOrders = FXCollections.observableArrayList(); // Declaring list of orders as JavaFX's observableArrayList
 
+    private final String dbLocation = dbDir + "/" + dbName; // This will go to resources -> db -> db file
+    private final Path dbPath = Paths.get(dbLocation);
+    private final String dbUrl = "jdbc:sqlite:" + dbPath.toString();
+
     // SQL
     private final static String QUERY_CREATE_TABLE_ORDERS = "CREATE TABLE \"orders\" (\n" +
             "\t\"id\"\tINTEGER NOT NULL UNIQUE,\n" +
@@ -44,6 +47,13 @@ public class OrderData {
             "\t\"category_name\"\tTEXT NOT NULL,\n" +
             "\tPRIMARY KEY(\"id\")\n" +
             ")";
+    private final static String QUERY_SELECT_ALL_ORDERS = "SELECT orders.id, orders.title, categories.category_name, orders.price, orders.description, orders.date_of_order, orders.date_of_delivery\n" +
+            "FROM orders\n" +
+            "LEFT JOIN categories ON orders.id_category=categories.id";
+    private final static String QUERY_SELECT_ALL_CATEGORIES = "SELECT id, category_name\n" +
+            "FROM categories";
+
+    // Constructor
 
     private OrderData() { // Constructor (private) - For Singleton purposes, to ensure that no second OrderData instance will be created
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // TODO: Check how it can be utilized in the future (I don't remember idea behind it)
@@ -75,36 +85,37 @@ public class OrderData {
         listOfOrders.remove(order);
     }
 
-    public void loadDatabase() throws IOException { // Method to load db
-
-        if (Files.exists(path)) { // Check whether db file exists
-
-
-
-            try (BufferedReader bufferedReader = Files.newBufferedReader(path)) { // Creating Buffer by try-with-resources
-                String orderInput;
-
-                while ((orderInput = bufferedReader.readLine()) != null) { // Opening Buffer
-                    String[] orderArgs = orderInput.split("\t"); // tab splits arguments of an object
-
-                    int id = Integer.parseInt(orderArgs[0]);
-                    String title = orderArgs[1];
-                    String category = orderArgs[2];
-                    double price = Double.parseDouble(orderArgs[3]);
-                    String description = orderArgs[4];
-                    String dateOfOrder = orderArgs[5];
-                    String dateOfDelivery = orderArgs[6];
-
-                    Order importedOrder = new Order(title, category, price, description, dateOfOrder, dateOfDelivery, id);
-                    addOrder(importedOrder); // Adding order into OrderData's list (observableArrayList), which will be utilized by ListView
-                }
-            }
-
-        } else {
-            // TODO: Create error pop-up to inform that db file has not been found
-        }
-
-    }
+    // TODO: Delete below loadDatabase() as it is obsolete method of loading db from txt file, now we have SQL db
+//    public void loadDatabase() throws IOException { // Method to load db
+//
+//        if (Files.exists(path)) { // Check whether db file exists
+//
+//
+//
+//            try (BufferedReader bufferedReader = Files.newBufferedReader(path)) { // Creating Buffer by try-with-resources
+//                String orderInput;
+//
+//                while ((orderInput = bufferedReader.readLine()) != null) { // Opening Buffer
+//                    String[] orderArgs = orderInput.split("\t"); // tab splits arguments of an object
+//
+//                    int id = Integer.parseInt(orderArgs[0]);
+//                    String title = orderArgs[1];
+//                    String category = orderArgs[2];
+//                    double price = Double.parseDouble(orderArgs[3]);
+//                    String description = orderArgs[4];
+//                    String dateOfOrder = orderArgs[5];
+//                    String dateOfDelivery = orderArgs[6];
+//
+//                    Order importedOrder = new Order(title, category, price, description, dateOfOrder, dateOfDelivery, id);
+//                    addOrder(importedOrder); // Adding order into OrderData's list (observableArrayList), which will be utilized by ListView
+//                }
+//            }
+//
+//        } else {
+//            // TODO: Create error pop-up to inform that db file has not been found
+//        }
+//
+//    }
 
     public void saveDatabase() throws IOException { // Method to save db
 
@@ -133,10 +144,6 @@ public class OrderData {
     private void createNewDatabase() {
         // Checks if database exists, if not - creates new one
 
-        String dbLocation = dbDir + "/" + dbName; // This will go to resources -> db -> db file
-        Path dbPath = Paths.get(dbLocation);
-        String dbUrl = "jdbc:sqlite:" + dbPath.toString();
-
         System.out.println(dbUrl); // TODO: Delete after tests
         // Checking whether tables exist, if not - creating new ones
 
@@ -159,6 +166,7 @@ public class OrderData {
                 System.out.println("Error with loading SQL database");
             }
         } catch (SQLException e) {
+            System.out.println("Error with db connection");
             e.printStackTrace();
         }
     }
@@ -168,5 +176,37 @@ public class OrderData {
         ResultSet resultSet = metaData.getTables(null, null, tableName, null);
 
         return resultSet.next();
+    }
+
+    public void loadSqlDatabase() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)){
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet;
+                if(checkExistingTable("orders", connection)) {
+                    // TODO: Load orders
+                    resultSet = statement.executeQuery(QUERY_SELECT_ALL_ORDERS);
+                    while (resultSet.next()) {
+                        Order importedOrder = new Order(resultSet.getString("title"),
+                                resultSet.getString("category_name"), resultSet.getDouble("price"),
+                                resultSet.getString("description"), resultSet.getString("date_of_order"),
+                                resultSet.getString("date_of_delivery"), resultSet.getInt("id"));
+                        addOrder(importedOrder);
+                    }
+                } else {
+                    System.out.println("Missing table orders");
+                }
+                if(checkExistingTable("categories", connection)) {
+                    // TODO: Load categories
+                } else {
+                    System.out.println("Missing table categories");
+                }
+            } else {
+                System.out.println("Error with loading SQL database");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error with db connection");
+            e.printStackTrace();
+        }
     }
 }

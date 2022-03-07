@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class MainApplication extends Application {
 
@@ -20,8 +21,8 @@ public class MainApplication extends Application {
     @Override
     public void init() { // During init of app, database is loaded
         try {
-            OrderData.getInstance().loadDatabase();
-        } catch (IOException e) {
+            OrderData.getInstance().loadSqlDatabase();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
