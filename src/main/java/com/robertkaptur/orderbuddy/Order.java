@@ -64,7 +64,7 @@ public class Order {
         this.title = title;
     }
 
-    public int getId() {// Only Getter for ID, no Setter due to Auto-ID policy
+    public int getId() { // Only Getter for ID, no Setter due to Auto-ID policy
         return id;
     }
 

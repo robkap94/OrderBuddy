@@ -160,8 +160,9 @@ public class OrderData {
                     statement.execute(QUERY_CREATE_TABLE_CATEGORIES);
                     System.out.println("Missing table categories - Creating new one");
                 } else {
-                    System.out.println("Not creating table orders - It already exists");
+                    System.out.println("Not creating table categories - It already exists");
                 }
+                statement.close();
             } else {
                 System.out.println("Error with loading SQL database");
             }
@@ -179,12 +180,11 @@ public class OrderData {
     }
 
     public void loadSqlDatabase() throws SQLException {
-        try (Connection connection = DriverManager.getConnection(dbUrl)){
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet;
                 if(checkExistingTable("orders", connection)) {
-                    // TODO: Load orders
                     resultSet = statement.executeQuery(QUERY_SELECT_ALL_ORDERS);
                     while (resultSet.next()) {
                         Order importedOrder = new Order(resultSet.getString("title"),
@@ -197,10 +197,16 @@ public class OrderData {
                     System.out.println("Missing table orders");
                 }
                 if(checkExistingTable("categories", connection)) {
-                    // TODO: Load categories
+                    resultSet = statement.executeQuery(QUERY_SELECT_ALL_CATEGORIES);
+                    while (resultSet.next()) {
+                        Category importedCategory = new Category(resultSet.getInt("id"), resultSet.getString("category_name"));
+                        // TODO: addCategory() method to add category into observable list
+                    }
+                    resultSet.close();
                 } else {
                     System.out.println("Missing table categories");
                 }
+                statement.close();
             } else {
                 System.out.println("Error with loading SQL database");
             }
