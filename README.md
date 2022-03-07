@@ -28,14 +28,14 @@ Finished on: 28/01/2022
 
 ### Alpha version  
 
-Date of start: 04/03/2022 
+Date of start: 04/03/2022  
 Scope of time: 3 weeks  
 Finished on: not yet  
 
 
 ### Beta version  
 
-Date of start: not yet
+Date of start: not yet  
 Scope of time: 2 weeks  
 Finished on: not yet  
 
