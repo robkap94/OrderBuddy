@@ -172,13 +172,6 @@ public class OrderData {
         }
     }
 
-    private boolean checkExistingTable(String tableName, Connection connection) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet resultSet = metaData.getTables(null, null, tableName, null);
-
-        return resultSet.next();
-    }
-
     public void loadSqlDatabase() throws SQLException {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
@@ -200,7 +193,7 @@ public class OrderData {
                     resultSet = statement.executeQuery(QUERY_SELECT_ALL_CATEGORIES);
                     while (resultSet.next()) {
                         Category importedCategory = new Category(resultSet.getInt("id"), resultSet.getString("category_name"));
-                        // TODO: addCategory() method to add category into observable list
+                        // TODO: addCategory() method to add category into observable list (like in orders above) - Should be handled in feature #52
                     }
                     resultSet.close();
                 } else {
@@ -214,5 +207,12 @@ public class OrderData {
             System.out.println("Error with db connection");
             e.printStackTrace();
         }
+    }
+
+    private boolean checkExistingTable(String tableName, Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+        ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+
+        return resultSet.next();
     }
 }
