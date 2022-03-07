@@ -13,10 +13,11 @@ class OrderDataTest {
         Assertions.assertNotEquals(null, OrderData.getInstance());
     }
 
-    @Test
-    void testDbFilename() {
-        Assertions.assertEquals("db/db.txt", OrderData.getDbFilename());
-    }
+    //TODO: To be changed into SQL one
+//    @Test
+//    void testDbFilename() {
+//        Assertions.assertEquals("db/db.txt", OrderData.getDbFilename());
+//    }
 
     @Test
     void testListOfOrders() {

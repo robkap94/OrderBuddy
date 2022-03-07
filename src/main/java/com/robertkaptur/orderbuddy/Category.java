@@ -25,9 +25,6 @@ public class Category {
         if(idCounter <= id) {
             setIdCounter(id + 1);
         }
-
-        // TODO: Delete after testing
-        System.out.println("Created category with name: " + categoryName);
     }
 
     public static int getIdCounter() {

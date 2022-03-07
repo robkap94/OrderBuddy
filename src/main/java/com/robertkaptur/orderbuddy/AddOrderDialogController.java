@@ -18,6 +18,7 @@ public class AddOrderDialogController {
 
     public Order processOrder() { // Processing order in window dialog
         String title = titleTextField.getText().trim();
+        // TODO: \/ Should be dropdown list to choose categories, should be implemented in #52. Temporarily provide here only category id (number/int) when testing
         String category = categoryTextField.getText().trim();
         double price = Double.parseDouble(priceTextField.getText().trim());
         String description = descriptionTextArea.getText().trim();

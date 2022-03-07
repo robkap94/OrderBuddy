@@ -28,12 +28,9 @@ public class MainApplication extends Application {
     }
 
     @Override
-    public void stop() { // During stop of app, database is saved
-        try {
-            OrderData.getInstance().saveDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void stop() {
+        // During stop of app, database was saved. Now it is redundant as queryUpdate is going directly into db
+        // TODO: Find use for this override method or delete it
     }
 
     // Current method to initialize windows

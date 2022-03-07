@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class ManagerController {
@@ -48,6 +49,7 @@ public class ManagerController {
     @FXML
     protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
         /*
+        TODO: Code Improvement
         This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in Window class).
         More info in task (issue) number #34, in comments.
          */
@@ -96,11 +98,11 @@ public class ManagerController {
             ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
             orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
 
-            //Saving database after file creation
+            // Adding order into SQL DB
 
             try {
-                orderData.saveDatabase();
-            } catch (IOException e) {
+                orderData.addOrderToSqlDatabase(newOrder);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }

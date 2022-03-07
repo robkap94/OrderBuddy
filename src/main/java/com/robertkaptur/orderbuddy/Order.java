@@ -41,9 +41,6 @@ public class Order {
         if(idCounter <= id) {
             setIdCounter(id + 1);
         }
-
-        // TODO: Delete after testing
-        System.out.println("Created order with title: " + title);
     }
 
     // Getters & Setters
