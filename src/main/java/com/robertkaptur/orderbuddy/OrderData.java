@@ -78,8 +78,8 @@ public class OrderData {
     // SQL methods
 
     private void createNewDatabase() {
-        // Checks whether database exists, if not - creates new one
-        // Checks whether tables exist, if not - creating new ones
+        // First - Checks whether database exists, if not - creates new one
+        // Then - Checks whether tables exist, if not - creating new ones
 
         try (Connection connection = DriverManager.getConnection(dbUrl)){
             if (connection != null) {
@@ -147,9 +147,10 @@ public class OrderData {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
-                // TODO: Change "category" int into String as soon as it will be changed into dropdown list (Temporary due to sql db structure (id_category)
-                String queryAddOrder = "INSERT into orders VALUES (" + newOrder.getId() + ", '" + newOrder.getTitle() + "', " + Integer.parseInt(newOrder.getCategory())
-                        + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() + "', '" + newOrder.getDateOfOrder() + "', '" + newOrder.getDateOfDelivery() + "');";
+                // TODO: Change "category" int into String as soon as it will be changed into dropdown list (Temporary due to sql db structure (id_category) [#52 issue]
+                String queryAddOrder = "INSERT into orders VALUES (" + newOrder.getId() + ", '" + newOrder.getTitle() + "', " +
+                        Integer.parseInt(newOrder.getCategory()) + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
+                        "', '" + newOrder.getDateOfOrder() + "', '" + newOrder.getDateOfDelivery() + "');";
                 statement.executeUpdate(queryAddOrder);
                 statement.close();
 
