@@ -13,10 +13,11 @@ class OrderDataTest {
         Assertions.assertNotEquals(null, OrderData.getInstance());
     }
 
-    @Test
-    void testDbFilename() {
-        Assertions.assertEquals("db/db.txt", OrderData.getDbFilename());
-    }
+    //TODO: To be changed into SQL one
+//    @Test
+//    void testDbFilename() {
+//        Assertions.assertEquals("db/db.txt", OrderData.getDbFilename());
+//    }
 
     @Test
     void testListOfOrders() {
@@ -37,13 +38,15 @@ class OrderDataTest {
         Assertions.assertFalse(OrderData.getInstance().getListOfOrders().contains(order));
     }
 
-    @Test
-    void loadDatabase() {
-        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().loadDatabase());
-    }
+    // TODO: Adjust it for SQL test
+//    @Test
+//    void loadDatabase() {
+//        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().loadDatabase());
+//    }
 
-    @Test
-    void saveDatabase() {
-        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().saveDatabase());
-    }
+    // TODO: Adjust it for SQL test
+//    @Test
+//    void saveDatabase() {
+//        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().saveDatabase());
+//    }
 }
