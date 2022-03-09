@@ -12,14 +12,12 @@ import javafx.stage.*;
 
 import java.io.IOException;
 
-// TODO: Consider to change the name of this class as it collides with the original javafx.stage.Window class
-
-public class Window {
+public class AppWindow {
 
     private Stage windowStage;
 
-    public Window(Stage windowStage, String fxmlLoader, int width, int height, double positionOnScreen, String title,
-                  boolean isGroupedWindow, boolean isShowAndWait) throws IOException {
+    public AppWindow(Stage windowStage, String fxmlLoader, int width, int height, double positionOnScreen, String title,
+                     boolean isGroupedWindow, boolean isShowAndWait) throws IOException {
         // isGroupedWindow boolean is to confirm whether this window is grouped and if it will be closed than rest of (grouped) windows would be close as well
         // above functionality should be utilized only for main windows - manager & queue views
 

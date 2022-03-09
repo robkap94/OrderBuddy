@@ -39,11 +39,11 @@ public class MainApplication extends Application {
     public static void launchWindows(Stage managerStage) {
         try {
             // Initialization of Manager Window
-            new Window(managerStage, "manager-view.fxml", 900, 600, 0.1,
+            new AppWindow(managerStage, "manager-view.fxml", 900, 600, 0.1,
                     "Order Buddy - Manager View", true, false);
             // Initialization of Queue Window
             Stage queueStage = new Stage();
-            new Window(queueStage, "queue-view.fxml", 480, 640, 0.9,
+            new AppWindow(queueStage, "queue-view.fxml", 480, 640, 0.9,
                     "Order Buddy - Queue View", true, false);
         } catch(IOException e) {
             e.printStackTrace();

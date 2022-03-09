@@ -120,7 +120,7 @@ public class ManagerController {
 
         Stage categoryManagerStage = new Stage();
         try {
-            Window categoryManagerWindow = new Window(categoryManagerStage, "categoryManager-view.fxml", 300, 400,
+            AppWindow categoryManagerWindow = new AppWindow(categoryManagerStage, "categoryManager-view.fxml", 300, 400,
                     0.5, "Category manager", false, true);
             categoryManagerWindow.resizableWindow(false);
         } catch (IOException e) {
