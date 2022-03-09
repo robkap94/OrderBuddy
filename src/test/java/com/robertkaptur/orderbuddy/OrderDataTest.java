@@ -13,12 +13,6 @@ class OrderDataTest {
         Assertions.assertNotEquals(null, OrderData.getInstance());
     }
 
-    //TODO: To be changed into SQL one
-//    @Test
-//    void testDbFilename() {
-//        Assertions.assertEquals("db/db.txt", OrderData.getDbFilename());
-//    }
-
     @Test
     void testListOfOrders() {
         Assertions.assertEquals(FXCollections.observableArrayList().getClass(), OrderData.getInstance().getListOfOrders().getClass());
@@ -38,15 +32,16 @@ class OrderDataTest {
         Assertions.assertFalse(OrderData.getInstance().getListOfOrders().contains(order));
     }
 
-    // TODO: Adjust it for SQL test
-//    @Test
-//    void loadDatabase() {
-//        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().loadDatabase());
-//    }
 
-    // TODO: Adjust it for SQL test
-//    @Test
-//    void saveDatabase() {
-//        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().saveDatabase());
-//    }
+    @Test
+    void loadDatabase() {
+        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().loadSqlDatabase());
+    }
+
+
+    @Test
+    void saveDatabase() {
+        Order testOrder = new Order("Test order", "1", 6.54, "test description, order created by jUnit", "some test date of start", "some test date of delivery");
+        Assertions.assertDoesNotThrow(() -> OrderData.getInstance().addOrderToSqlDatabase(testOrder));
+    }
 }
