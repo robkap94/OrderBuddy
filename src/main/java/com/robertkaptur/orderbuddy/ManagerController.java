@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class ManagerController {
 
 
     @FXML
-    public void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
+    protected void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
 
         // Initializing, declaring and processing Dialog Window to create Order
 
@@ -110,6 +111,22 @@ public class ManagerController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    protected void showCategoryManagerWindow() { // Opening category manager window
+
+        // Initializing, declaring and processing Dialog Window to manage categories
+
+        Stage categoryManagerStage = new Stage();
+        try {
+            Window categoryManagerWindow = new Window(categoryManagerStage, "categoryManager-view.fxml", 300, 400,
+                    0.5, "Category manager", false, true);
+            categoryManagerWindow.resizableWindow(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour

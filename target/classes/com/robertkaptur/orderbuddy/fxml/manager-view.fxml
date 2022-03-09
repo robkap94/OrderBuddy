@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,7 +31,10 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem fx:id="createOrderMenuItem" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Create order" />
+                <MenuItem mnemonicParsing="false" text="Delete order" />
+                <SeparatorMenuItem />
+                <MenuItem fx:id="categoryManagerMenuItem" mnemonicParsing="false" onAction="#showCategoryManagerWindow" text="Category manager" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
