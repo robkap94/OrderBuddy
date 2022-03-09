@@ -21,7 +21,11 @@ public class ManagerController {
     @FXML
     BorderPane managerBorderPane;
     @FXML
+    MenuItem createOrderMenuItem;
+    @FXML
     MenuItem closeMenuItem;
+    @FXML
+    MenuItem categoryManagerMenuItem;
 
     // Fields
     ObservableList<Order> ordersList = FXCollections.observableArrayList();
