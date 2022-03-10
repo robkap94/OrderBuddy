@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -44,23 +43,11 @@ public class CategoryManagerController {
 
         // Initializing, declaring and processing Dialog Window to create Order
 
-        Dialog<ButtonType> dialogWindow = new Dialog<>();
-        dialogWindow.initOwner(categoryManagerGridPane.getScene().getWindow());
-        dialogWindow.setHeaderText("This is create Category dialog");
-        dialogWindow.setTitle("Create new category");
-
-        FXMLLoader dialogLoader = new FXMLLoader();
-        dialogLoader.setLocation(MainApplication.class.getResource("fxml/addCategoryDialog-view.fxml"));
-        try {
-            dialogWindow.getDialogPane().setContent(dialogLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-        Optional<ButtonType> result = dialogWindow.showAndWait();
+        DialogWindow dialogWindow = new DialogWindow(categoryManagerGridPane.getScene().getWindow(), "This is create category dialog",
+                "Create new category", "fxml/addCategoryDialog-view.fxml");
+        dialogWindow.prepareDialog(true, true);
+        Optional<ButtonType> result = dialogWindow.launchDialogResult();
+        FXMLLoader dialogLoader = dialogWindow.getDialogLoader();
 
         // Processing results of dialog window
 

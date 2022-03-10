@@ -72,26 +72,11 @@ public class ManagerController {
     @FXML
     protected void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
 
-        // Initializing, declaring and processing Dialog Window to create Order
-
-        Dialog<ButtonType> dialogWindow = new Dialog<>();
-        dialogWindow.initOwner(managerBorderPane.getScene().getWindow());
-        dialogWindow.setHeaderText("This is create Order dialog");
-        dialogWindow.setTitle("Create new order");
-
-        FXMLLoader dialogLoader = new FXMLLoader();
-        dialogLoader.setLocation(MainApplication.class.getResource("fxml/addOrderDialog-view.fxml"));
-        // TODO: Fix duplicated code (ManagerController & CategoryManagerController)
-        try {
-            dialogWindow.getDialogPane().setContent(dialogLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-        Optional<ButtonType> result = dialogWindow.showAndWait();
+        DialogWindow dialogWindow = new DialogWindow(managerBorderPane.getScene().getWindow(), "This is create order dialog",
+                "Create new order", "fxml/addOrderDialog-view.fxml");
+        dialogWindow.prepareDialog(true, true);
+        Optional<ButtonType> result = dialogWindow.launchDialogResult();
+        FXMLLoader dialogLoader = dialogWindow.getDialogLoader();
 
         // Processing results of dialog window
 
