@@ -55,7 +55,7 @@ public class ManagerController {
     protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
         /*
         TODO: Code Improvement
-        This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in Window class).
+        This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in AppWindow class).
         More info in task (issue) number #34, in comments.
          */
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
@@ -78,10 +78,10 @@ public class ManagerController {
         dialogWindow.initOwner(managerBorderPane.getScene().getWindow());
         dialogWindow.setHeaderText("This is create Order dialog");
         dialogWindow.setTitle("Create new order");
-        dialogWindow.setContentText("This is simple dialog");
 
         FXMLLoader dialogLoader = new FXMLLoader();
         dialogLoader.setLocation(MainApplication.class.getResource("fxml/addOrderDialog-view.fxml"));
+        // TODO: Fix duplicated code (ManagerController & CategoryManagerController)
         try {
             dialogWindow.getDialogPane().setContent(dialogLoader.load());
         } catch (IOException e) {
