@@ -41,7 +41,7 @@ class OrderDataTest {
 
     @Test
     void saveDatabase() {
-        Order testOrder = new Order("Test order", "1", 6.54, "test description, order created by jUnit", "some test date of start", "some test date of delivery");
+        Order testOrder = new Order("Test order from jUnit", "1", 6.54, "test description, order created by jUnit", "some test date of start", "some test date of delivery");
         Assertions.assertDoesNotThrow(() -> OrderData.getInstance().addOrderToSqlDatabase(testOrder));
     }
 }
