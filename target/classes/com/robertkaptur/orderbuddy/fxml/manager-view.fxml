@@ -32,7 +32,8 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
                 <MenuItem fx:id="createOrderMenuItem" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Create order" />
-                <MenuItem mnemonicParsing="false" text="Delete order" />
+                <MenuItem fx:id="editOrderMenuItem" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit order" />
+                <MenuItem fx:id="deleteOrderMenuItem" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Delete order" />
                 <SeparatorMenuItem />
                 <MenuItem fx:id="categoryManagerMenuItem" mnemonicParsing="false" onAction="#showCategoryManagerWindow" text="Category manager" />
             </items>
@@ -77,12 +78,12 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Show in queue" textAlignment="CENTER" wrapText="true">
+                  <Button fx:id="showInQueueButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Show in queue" textAlignment="CENTER" wrapText="true">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Delete" textAlignment="CENTER">
+                  <Button fx:id="deleteButton" onMouseClicked="#onDeleteButtonClicked" layoutX="200.0" layoutY="20.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Delete" textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>

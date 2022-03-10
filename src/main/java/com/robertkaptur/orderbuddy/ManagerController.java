@@ -1,5 +1,7 @@
 package com.robertkaptur.orderbuddy;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,13 +25,24 @@ public class ManagerController {
     @FXML
     MenuItem createOrderMenuItem;
     @FXML
+    MenuItem deleteOrderMenuItem;
+    @FXML
+    MenuItem editOrderMenuItem;
+    @FXML
     MenuItem closeMenuItem;
     @FXML
     MenuItem categoryManagerMenuItem;
+    @FXML
+    Button deleteButton;
+    @FXML
+    Button editButton;
+    @FXML
+    Button showInQueueButton;
 
     // Fields
     ObservableList<Order> ordersList = FXCollections.observableArrayList();
     OrderData orderData = OrderData.getInstance();
+    Order currentlySelectedOrder;
 
     @FXML
     public void initialize() { // During init of ManagerController
@@ -38,6 +52,36 @@ public class ManagerController {
         ordersListView.getSelectionModel().selectFirst(); // Will be selected first, existing, order
         ordersListView.setItems(ordersList); // Setting ListView for items from ordersList (observableArrayList)
         updateListViewCellFactory(); // Setting up proper way of updating cells in ListView's CellFactory
+
+        // Disabling buttons on init (will be handled, during app's lifecycle, by event listener
+
+        deleteOrderMenuItem.setDisable(true);
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
+        showInQueueButton.setDisable(true);
+        editOrderMenuItem.setDisable(true);
+
+        // Listener for selected order
+
+        ordersListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Order>() {
+            @Override
+            public void changed(ObservableValue<? extends Order> observableValue, Order oldValue, Order newValue) {
+                if(newValue == null) {
+                    deleteOrderMenuItem.setDisable(true);
+                    deleteButton.setDisable(true);
+                    editButton.setDisable(true);
+                    showInQueueButton.setDisable(true);
+                    editOrderMenuItem.setDisable(true);
+                } else {
+                    deleteOrderMenuItem.setDisable(false);
+                    deleteButton.setDisable(false);
+                    editButton.setDisable(false);
+                    showInQueueButton.setDisable(false);
+                    editOrderMenuItem.setDisable(false);
+                    currentlySelectedOrder = newValue;
+                }
+            }
+        });
     }
 
     @FXML
@@ -50,8 +94,33 @@ public class ManagerController {
     }
 
     @FXML
+    protected void onDeleteButtonClicked() {
+        if(currentlySelectedOrder != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete order '" + currentlySelectedOrder.getTitle() + "'?", ButtonType.YES, ButtonType.NO);
+            alert.initStyle(StageStyle.TRANSPARENT);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+
+                // Deleting order from SQL DB
+
+                try {
+                    orderData.deleteOrderFromSqlDatabase(currentlySelectedOrder);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                ordersList.remove(currentlySelectedOrder); // Removing from FXCollections' observableArrayList
+                orderData.deleteOrder(currentlySelectedOrder); // Removing, selected order, from OrderData instance
+                ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
+            }
+        }
+    }
+
+    @FXML
     protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
-        AppWindow.showExitConfirmationDialog();
+        AppWindow.showExitConfirmationAlert();
     }
 
 

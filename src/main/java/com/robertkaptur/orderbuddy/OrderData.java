@@ -169,6 +169,20 @@ public class OrderData {
         }
     }
 
+    public void deleteOrderFromSqlDatabase(Order deletedOrder) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryDeleteOrder = "DELETE FROM orders WHERE orders.id = " + deletedOrder.getId();
+                statement.executeUpdate(queryDeleteOrder);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
     public void addCategoryToSqlDatabase(Category newCategory) throws SQLException {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {

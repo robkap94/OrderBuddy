@@ -18,6 +18,7 @@ public class DialogWindow {
     private FXMLLoader dialogLoader;
 
     public DialogWindow(Window initOwnerWindow, String headerText, String titleText, String fxmlResource) {
+        // If headerText is null, then HeaderText property won't be assigned, and it won't even appear in the dialog
         this.initOwnerWindow = initOwnerWindow;
         this.headerText = headerText;
         this.titleText = titleText;
@@ -27,7 +28,9 @@ public class DialogWindow {
     public void prepareDialog(boolean hasOkButton, boolean hasCancelButton) {
         dialog = new Dialog<>();
         dialog.initOwner(initOwnerWindow);
-        dialog.setHeaderText(headerText);
+        if(headerText != null) {
+            dialog.setHeaderText(headerText);
+        }
         dialog.setTitle(titleText);
 
         dialogLoader = new FXMLLoader();
@@ -48,10 +51,6 @@ public class DialogWindow {
 
     public Optional<ButtonType> launchDialogResult() {
         return dialog.showAndWait();
-    }
-
-    public Dialog<ButtonType> getDialog() {
-        return dialog;
     }
 
     public FXMLLoader getDialogLoader() {
