@@ -1,6 +1,5 @@
 package com.robertkaptur.orderbuddy;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -53,18 +51,7 @@ public class ManagerController {
 
     @FXML
     protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
-        /*
-        TODO: Code Improvement
-        This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in AppWindow class).
-        More info in task (issue) number #34, in comments.
-         */
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
-        alert.initStyle(StageStyle.TRANSPARENT);
-        alert.showAndWait();
-
-        if(alert.getResult() == ButtonType.YES) {
-            Platform.exit();
-        }
+        AppWindow.showExitConfirmationDialog();
     }
 
 

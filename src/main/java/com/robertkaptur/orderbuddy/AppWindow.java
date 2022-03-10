@@ -65,7 +65,7 @@ public class AppWindow {
 
     }
 
-    public void showExitConfirmationDialog() { // Opens additional confirmation dialog when clicked window's exit icon (X)
+    public static void showExitConfirmationDialog() { // Opens additional confirmation dialog when clicked window's exit icon (X)
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
         alert.initStyle(StageStyle.TRANSPARENT);
         alert.showAndWait();
