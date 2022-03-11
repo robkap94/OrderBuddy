@@ -138,6 +138,7 @@ public class ManagerController {
         if((result.isPresent()) && (result.get() == ButtonType.OK)) {
             AddOrderDialogController controller = dialogLoader.getController();
             Order newOrder = controller.processOrder();
+            Category selectedCategory = controller.getSelectedCategory();
             orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
             ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
             ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
@@ -145,7 +146,7 @@ public class ManagerController {
             // Adding order into SQL DB
 
             try {
-                orderData.addOrderToSqlDatabase(newOrder);
+                orderData.addOrderToSqlDatabase(newOrder, selectedCategory);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

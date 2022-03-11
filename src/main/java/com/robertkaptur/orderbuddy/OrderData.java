@@ -152,13 +152,13 @@ public class OrderData {
         }
     }
 
-    public void addOrderToSqlDatabase(Order newOrder) throws SQLException {
+    public void addOrderToSqlDatabase(Order newOrder, Category selectedCategory) throws SQLException {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
                 // TODO: Change "category" int into String as soon as it will be changed into dropdown list (Temporary due to sql db structure (id_category) [#52 issue]
                 String queryAddOrder = "INSERT into orders VALUES (" + newOrder.getId() + ", '" + newOrder.getTitle() + "', " +
-                        Integer.parseInt(newOrder.getCategory()) + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
+                        selectedCategory.getId() + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
                         "', '" + newOrder.getDateOfOrder() + "', '" + newOrder.getDateOfDelivery() + "');";
                 statement.executeUpdate(queryAddOrder);
                 statement.close();
