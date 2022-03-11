@@ -38,6 +38,21 @@ public class ManagerController {
     private Button editButton;
     @FXML
     private Button showInQueueButton;
+    @FXML
+    private TextField titleOrderDetailField;
+    @FXML
+    private TextField idOrderDetailField;
+    @FXML
+    private TextField categoryOrderDetailField;
+    @FXML
+    private TextField priceOrderDetailField;
+    @FXML
+    private TextArea descriptionOrderDetailField;
+    @FXML
+    private DatePicker dooOrderDetailField;
+    @FXML
+    private DatePicker dodOrderDetailField;
+
 
     // Fields
     private ObservableList<Order> ordersList = FXCollections.observableArrayList();
@@ -79,6 +94,7 @@ public class ManagerController {
                     showInQueueButton.setDisable(false);
                     editOrderMenuItem.setDisable(false);
                     currentlySelectedOrder = newValue;
+                    showOrderDetailsInPane(currentlySelectedOrder);
                 }
             }
         });
@@ -199,7 +215,16 @@ public class ManagerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @FXML
+    private void showOrderDetailsInPane(Order selectedOrder) {
+        titleOrderDetailField.setText(selectedOrder.getTitle());
+        idOrderDetailField.setText(String.valueOf(selectedOrder.getId()));
+        categoryOrderDetailField.setText(selectedOrder.getCategory());
+        priceOrderDetailField.setText(String.valueOf(selectedOrder.getPrice()));
+        descriptionOrderDetailField.setText(selectedOrder.getDescription());
+        // TODO: Add dates update in Feature #58
     }
 
     private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour
