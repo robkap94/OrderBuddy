@@ -197,6 +197,34 @@ public class OrderData {
         }
     }
 
+    public void editCategoryInSqlDatabase(Category changedCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryEditCategory = "UPDATE categories SET category_name = '" + changedCategory.getCategoryName() + "' WHERE id = " + changedCategory.getId() + ";";
+                statement.executeUpdate(queryEditCategory);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void deleteCategoryFromSqlDatabase(Category deletedCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryDeleteCategory = "DELETE FROM categories WHERE categories.id = " + deletedCategory.getId();
+                statement.executeUpdate(queryDeleteCategory);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
     private boolean checkExistingTable(String tableName, Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
         ResultSet resultSet = metaData.getTables(null, null, tableName, null);

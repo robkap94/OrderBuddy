@@ -19,7 +19,7 @@
     <RowConstraints minHeight="10.0" valignment="CENTER" />
   </rowConstraints>
    <children>
-      <Button fx:id="addCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#showCreateCategoryDialog" text="Add" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="addCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Add" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>
@@ -27,7 +27,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="editCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" prefWidth="62.0" text="Edit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="editCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#onEditButtonClicked" prefWidth="62.0" text="Edit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>
@@ -35,7 +35,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="deleteCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" text="Delete" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="deleteCategoryButton" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Delete" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>

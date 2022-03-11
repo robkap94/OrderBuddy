@@ -111,9 +111,8 @@ public class ManagerController {
                     e.printStackTrace();
                 }
 
-                ordersList.remove(currentlySelectedOrder); // Removing from FXCollections' observableArrayList
                 orderData.deleteOrder(currentlySelectedOrder); // Removing, selected order, from OrderData instance
-                ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
+                ordersList.remove(currentlySelectedOrder); // Removing from FXCollections' observableArrayList
             }
         }
     }
@@ -139,10 +138,9 @@ public class ManagerController {
         if((result.isPresent()) && (result.get() == ButtonType.OK)) {
             AddOrderDialogController controller = dialogLoader.getController();
             Order newOrder = controller.processOrder();
-            ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
-            ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
-            ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
             orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
+            ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
+            ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
 
             // Adding order into SQL DB
 
