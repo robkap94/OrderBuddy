@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class OrderData {
 
@@ -18,8 +15,8 @@ public class OrderData {
     private final static String dbDir = "db";
     private final static String dbName = "database.db";
 
-    private final DecimalFormat decimalFormatter = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US)); // Utilized during saving db
     private final ObservableList<Order> listOfOrders = FXCollections.observableArrayList(); // Declaring list of orders as JavaFX's observableArrayList
+    private final ObservableList<Category> listOfCategories = FXCollections.observableArrayList(); // Declaring list of categories as JavaFX's observableArrayList
 
     private final String dbLocation = dbDir + "/" + dbName; // This will go to resources -> db -> db file
     private final Path dbPath = Paths.get(dbLocation);
@@ -65,6 +62,10 @@ public class OrderData {
         return listOfOrders;
     }
 
+    public ObservableList<Category> getListOfCategories() {
+        return listOfCategories;
+    }
+
     // Operations on OrderData
 
     public void addOrder(Order order) {
@@ -73,6 +74,14 @@ public class OrderData {
 
     public void deleteOrder(Order order) {
         listOfOrders.remove(order);
+    }
+
+    public void addCategory(Category category) {
+        listOfCategories.add(category);
+    }
+
+    public void deleteCategory(Category category) {
+        listOfCategories.remove(category);
     }
 
     // SQL methods
@@ -127,7 +136,7 @@ public class OrderData {
                     resultSet = statement.executeQuery(QUERY_SELECT_ALL_CATEGORIES);
                     while (resultSet.next()) {
                         Category importedCategory = new Category(resultSet.getInt("id"), resultSet.getString("category_name"));
-                        // TODO: addCategory() method to add category into observable list (like in orders above) - Should be handled in feature #52
+                        addCategory(importedCategory);
                     }
                     resultSet.close();
                 } else {
@@ -143,15 +152,71 @@ public class OrderData {
         }
     }
 
-    public void addOrderToSqlDatabase(Order newOrder) throws SQLException {
+    public void addOrderToSqlDatabase(Order newOrder, Category selectedCategory) throws SQLException {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
                 // TODO: Change "category" int into String as soon as it will be changed into dropdown list (Temporary due to sql db structure (id_category) [#52 issue]
                 String queryAddOrder = "INSERT into orders VALUES (" + newOrder.getId() + ", '" + newOrder.getTitle() + "', " +
-                        Integer.parseInt(newOrder.getCategory()) + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
+                        selectedCategory.getId() + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
                         "', '" + newOrder.getDateOfOrder() + "', '" + newOrder.getDateOfDelivery() + "');";
                 statement.executeUpdate(queryAddOrder);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void deleteOrderFromSqlDatabase(Order deletedOrder) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryDeleteOrder = "DELETE FROM orders WHERE orders.id = " + deletedOrder.getId();
+                statement.executeUpdate(queryDeleteOrder);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void addCategoryToSqlDatabase(Category newCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryAddCategory = "INSERT into categories VALUES (" + newCategory.getId() + ", '" + newCategory.getCategoryName() + "');";
+                statement.executeUpdate(queryAddCategory);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void editCategoryInSqlDatabase(Category changedCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryEditCategory = "UPDATE categories SET category_name = '" + changedCategory.getCategoryName() + "' WHERE id = " + changedCategory.getId() + ";";
+                statement.executeUpdate(queryEditCategory);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void deleteCategoryFromSqlDatabase(Category deletedCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryDeleteCategory = "DELETE FROM categories WHERE categories.id = " + deletedCategory.getId();
+                statement.executeUpdate(queryDeleteCategory);
                 statement.close();
 
             } else {

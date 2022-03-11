@@ -1,12 +1,14 @@
 package com.robertkaptur.orderbuddy;
 
-import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
@@ -21,11 +23,26 @@ public class ManagerController {
     @FXML
     BorderPane managerBorderPane;
     @FXML
+    MenuItem createOrderMenuItem;
+    @FXML
+    MenuItem deleteOrderMenuItem;
+    @FXML
+    MenuItem editOrderMenuItem;
+    @FXML
     MenuItem closeMenuItem;
+    @FXML
+    MenuItem categoryManagerMenuItem;
+    @FXML
+    Button deleteButton;
+    @FXML
+    Button editButton;
+    @FXML
+    Button showInQueueButton;
 
     // Fields
     ObservableList<Order> ordersList = FXCollections.observableArrayList();
     OrderData orderData = OrderData.getInstance();
+    Order currentlySelectedOrder;
 
     @FXML
     public void initialize() { // During init of ManagerController
@@ -35,6 +52,36 @@ public class ManagerController {
         ordersListView.getSelectionModel().selectFirst(); // Will be selected first, existing, order
         ordersListView.setItems(ordersList); // Setting ListView for items from ordersList (observableArrayList)
         updateListViewCellFactory(); // Setting up proper way of updating cells in ListView's CellFactory
+
+        // Disabling buttons on init (will be handled, during app's lifecycle, by event listener
+
+        deleteOrderMenuItem.setDisable(true);
+        deleteButton.setDisable(true);
+        editButton.setDisable(true);
+        showInQueueButton.setDisable(true);
+        editOrderMenuItem.setDisable(true);
+
+        // Listener for selected order
+
+        ordersListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Order>() {
+            @Override
+            public void changed(ObservableValue<? extends Order> observableValue, Order oldValue, Order newValue) {
+                if(newValue == null) {
+                    deleteOrderMenuItem.setDisable(true);
+                    deleteButton.setDisable(true);
+                    editButton.setDisable(true);
+                    showInQueueButton.setDisable(true);
+                    editOrderMenuItem.setDisable(true);
+                } else {
+                    deleteOrderMenuItem.setDisable(false);
+                    deleteButton.setDisable(false);
+                    editButton.setDisable(false);
+                    showInQueueButton.setDisable(false);
+                    editOrderMenuItem.setDisable(false);
+                    currentlySelectedOrder = newValue;
+                }
+            }
+        });
     }
 
     @FXML
@@ -47,65 +94,79 @@ public class ManagerController {
     }
 
     @FXML
-    protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
-        /*
-        TODO: Code Improvement
-        This method should be adjusted due to duplicated code (showExitConfirmationDialog() method in Window class).
-        More info in task (issue) number #34, in comments.
-         */
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to exit?", ButtonType.YES, ButtonType.NO);
-        alert.initStyle(StageStyle.TRANSPARENT);
-        alert.showAndWait();
+    protected void onDeleteButtonClicked() {
+        if(currentlySelectedOrder != null) {
 
-        if(alert.getResult() == ButtonType.YES) {
-            Platform.exit();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete order '" + currentlySelectedOrder.getTitle() + "'?", ButtonType.YES, ButtonType.NO);
+            alert.initStyle(StageStyle.TRANSPARENT);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+
+                // Deleting order from SQL DB
+
+                try {
+                    orderData.deleteOrderFromSqlDatabase(currentlySelectedOrder);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                orderData.deleteOrder(currentlySelectedOrder); // Removing, selected order, from OrderData instance
+                ordersList.remove(currentlySelectedOrder); // Removing from FXCollections' observableArrayList
+            }
         }
+    }
+
+    @FXML
+    protected void onCloseMenuItemClicked() { // Opens additional confirmation dialog when clicked on File->Close
+        AppWindow.showExitConfirmationAlert();
     }
 
 
 
     @FXML
-    public void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
+    protected void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
 
-        // Initializing, declaring and processing Dialog Window to create Order
-
-        Dialog<ButtonType> dialogWindow = new Dialog<>();
-        dialogWindow.initOwner(managerBorderPane.getScene().getWindow());
-        dialogWindow.setHeaderText("This is create Order dialog");
-        dialogWindow.setTitle("Create new order");
-        dialogWindow.setContentText("This is simple dialog");
-
-        FXMLLoader dialogLoader = new FXMLLoader();
-        dialogLoader.setLocation(MainApplication.class.getResource("fxml/addOrderDialog-view.fxml"));
-        try {
-            dialogWindow.getDialogPane().setContent(dialogLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialogWindow.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-        Optional<ButtonType> result = dialogWindow.showAndWait();
+        DialogWindow dialogWindow = new DialogWindow(managerBorderPane.getScene().getWindow(), "This is create order dialog",
+                "Create new order", "fxml/addOrderDialog-view.fxml");
+        dialogWindow.prepareDialog(true, true);
+        Optional<ButtonType> result = dialogWindow.launchDialogResult();
+        FXMLLoader dialogLoader = dialogWindow.getDialogLoader();
 
         // Processing results of dialog window
 
         if((result.isPresent()) && (result.get() == ButtonType.OK)) {
             AddOrderDialogController controller = dialogLoader.getController();
             Order newOrder = controller.processOrder();
-            ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
-            ordersListView.setItems(ordersList); // Setting ListView to items which are in observableArrayList
-            ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
+            Category selectedCategory = controller.getSelectedCategory();
             orderData.addOrder(newOrder); // Adding, newly created order, into OrderData instance
+            ordersList.add(newOrder); // Adding to FXCollections' observableArrayList
+            ordersListView.getSelectionModel().select(newOrder); // Selecting, on ListView, newly created order
 
             // Adding order into SQL DB
 
             try {
-                orderData.addOrderToSqlDatabase(newOrder);
+                orderData.addOrderToSqlDatabase(newOrder, selectedCategory);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    protected void showCategoryManagerWindow() { // Opening category manager window
+
+        // Initializing, declaring and processing Dialog Window to manage categories
+
+        Stage categoryManagerStage = new Stage();
+        try {
+            AppWindow categoryManagerWindow = new AppWindow(categoryManagerStage, "categoryManager-view.fxml", 300, 400,
+                    0.5, "Category manager", false, true);
+            categoryManagerWindow.resizableWindow(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour

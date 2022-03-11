@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,7 +31,11 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem fx:id="createOrderMenuItem" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Create order" />
+                <MenuItem fx:id="editOrderMenuItem" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit order" />
+                <MenuItem fx:id="deleteOrderMenuItem" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Delete order" />
+                <SeparatorMenuItem />
+                <MenuItem fx:id="categoryManagerMenuItem" mnemonicParsing="false" onAction="#showCategoryManagerWindow" text="Category manager" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -73,12 +78,12 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Show in queue" textAlignment="CENTER" wrapText="true">
+                  <Button fx:id="showInQueueButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Show in queue" textAlignment="CENTER" wrapText="true">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="70.0" text="Delete" textAlignment="CENTER">
+                  <Button fx:id="deleteButton" layoutX="200.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onDeleteButtonClicked" prefHeight="45.0" prefWidth="70.0" text="Delete" textAlignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -155,13 +160,13 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" />
+                  <ChoiceBox disable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField disable="true" GridPane.columnIndex="1" />
                   <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextArea disable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

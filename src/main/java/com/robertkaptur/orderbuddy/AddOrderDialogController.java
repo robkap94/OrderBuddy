@@ -1,8 +1,9 @@
 package com.robertkaptur.orderbuddy;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class AddOrderDialogController {
 
@@ -10,16 +11,28 @@ public class AddOrderDialogController {
     @FXML
     TextField titleTextField;
     @FXML
-    TextField categoryTextField;
+    ComboBox categoryComboBox;
     @FXML
     TextField priceTextField;
     @FXML
     TextArea descriptionTextArea;
 
+    // Fields
+    ObservableList<Category> categoryObservableList = FXCollections.observableArrayList();
+    OrderData orderData = OrderData.getInstance();
+    Category selectedCategory;
+
+    @FXML
+    private void initialize() {
+        categoryObservableList.setAll(orderData.getListOfCategories()); // observableArrayList is populated by observableArrayList from OrderData
+        categoryComboBox.setItems(categoryObservableList);
+        updateComboBoxCellFactory();
+    }
+
     public Order processOrder() { // Processing order in window dialog
         String title = titleTextField.getText().trim();
-        // TODO: \/ Should be dropdown list to choose categories, should be implemented in #52. Temporarily provide here only category id (number/int) when testing
-        String category = categoryTextField.getText().trim();
+        selectedCategory = (Category) categoryComboBox.getValue();
+        String category = selectedCategory.getCategoryName();
         double price = Double.parseDouble(priceTextField.getText().trim());
         String description = descriptionTextArea.getText().trim();
 
@@ -30,5 +43,26 @@ public class AddOrderDialogController {
         b) Date of Delivery is NULL
 
         Ensure that these dates will be format into ISO8601*/
+    }
+
+    private void updateComboBoxCellFactory() { // Updating way of CellFactory's behaviour
+        categoryComboBox.setCellFactory(listView -> new CellFactoryForComboBox());
+        categoryComboBox.setButtonCell(new CellFactoryForComboBox());
+    }
+
+    private static class CellFactoryForComboBox extends ListCell<Category> { // Creating static class, which extends ListCell, to update items in the ComboBox
+        @Override
+        protected void updateItem(Category category, boolean b) {
+            super.updateItem(category, b);
+            if(category != null) {
+                setText(category.getCategoryName().trim());
+            } else {
+                setText(null);
+            }
+        }
+    }
+
+    public Category getSelectedCategory() {
+        return selectedCategory;
     }
 }
