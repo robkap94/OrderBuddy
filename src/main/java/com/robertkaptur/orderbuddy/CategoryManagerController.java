@@ -174,6 +174,4 @@ public class CategoryManagerController {
         });
     }
 
-    // TODO: Add Category Manager window's functionality here
-
 }
