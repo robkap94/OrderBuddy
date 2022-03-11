@@ -19,30 +19,30 @@ public class ManagerController {
 
     // FXML Fields
     @FXML
-    ListView<Order> ordersListView = new ListView<>();
+    private ListView<Order> ordersListView = new ListView<>();
     @FXML
-    BorderPane managerBorderPane;
+    private BorderPane managerBorderPane;
     @FXML
-    MenuItem createOrderMenuItem;
+    private MenuItem createOrderMenuItem;
     @FXML
-    MenuItem deleteOrderMenuItem;
+    private MenuItem deleteOrderMenuItem;
     @FXML
-    MenuItem editOrderMenuItem;
+    private MenuItem editOrderMenuItem;
     @FXML
-    MenuItem closeMenuItem;
+    private MenuItem closeMenuItem;
     @FXML
-    MenuItem categoryManagerMenuItem;
+    private MenuItem categoryManagerMenuItem;
     @FXML
-    Button deleteButton;
+    private Button deleteButton;
     @FXML
-    Button editButton;
+    private Button editButton;
     @FXML
-    Button showInQueueButton;
+    private Button showInQueueButton;
 
     // Fields
-    ObservableList<Order> ordersList = FXCollections.observableArrayList();
-    OrderData orderData = OrderData.getInstance();
-    Order currentlySelectedOrder;
+    private ObservableList<Order> ordersList = FXCollections.observableArrayList();
+    private OrderData orderData = OrderData.getInstance();
+    private Order currentlySelectedOrder;
 
     @FXML
     public void initialize() { // During init of ManagerController
@@ -91,6 +91,7 @@ public class ManagerController {
 
     @FXML
     protected void onEditButtonClicked() {
+        showEditOrderDialog();
     }
 
     @FXML
@@ -123,8 +124,6 @@ public class ManagerController {
         AppWindow.showExitConfirmationAlert();
     }
 
-
-
     @FXML
     protected void showCreateOrderDialog() { // Opening Dialog to create order (with all fields to be filled)
 
@@ -148,6 +147,39 @@ public class ManagerController {
 
             try {
                 orderData.addOrderToSqlDatabase(newOrder, selectedCategory);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    protected void showEditOrderDialog() { // Opening Dialog to edit order (with all fields to be filled)
+
+        DialogWindow dialogWindow = new DialogWindow(managerBorderPane.getScene().getWindow(), "This is edit order dialog",
+                "Modify order", "fxml/editOrderDialog-view.fxml");
+        dialogWindow.prepareDialog(true, true);
+        EditOrderDialogController editOrderDialogController = dialogWindow.getDialogLoader().getController();
+        editOrderDialogController.processOrder(currentlySelectedOrder);
+        Optional<ButtonType> result = dialogWindow.launchDialogResult();
+        FXMLLoader dialogLoader = dialogWindow.getDialogLoader();
+
+        // Processing results of dialog window
+
+        if((result.isPresent()) && (result.get() == ButtonType.OK)) {
+            editOrderDialogController.modifyOrder();
+            Category selectedCategory = editOrderDialogController.getSelectedCategory();
+            currentlySelectedOrder.setTitle(editOrderDialogController.getNewTitle());
+            currentlySelectedOrder.setCategory(editOrderDialogController.getNewCategory());
+            currentlySelectedOrder.setPrice(editOrderDialogController.getNewPrice());
+            currentlySelectedOrder.setDescription(editOrderDialogController.getNewDescription());
+            ordersListView.refresh();
+            ordersListView.getSelectionModel().select(currentlySelectedOrder); // Selecting, on ListView, modified order
+
+            // Adding order into SQL DB
+
+            try {
+                orderData.editOrderInSqlDatabase(currentlySelectedOrder, selectedCategory);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

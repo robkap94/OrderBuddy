@@ -17,20 +17,20 @@ public class CategoryManagerController {
 
     // FXML Fields for Category Manager Window
     @FXML
-    GridPane categoryManagerGridPane;
+    private GridPane categoryManagerGridPane;
     @FXML
-    ListView<Category> categoryManagerListView = new ListView<>();
+    private ListView<Category> categoryManagerListView = new ListView<>();
     @FXML
-    Button addCategoryButton;
+    private Button addCategoryButton;
     @FXML
-    Button editCategoryButton;
+    private Button editCategoryButton;
     @FXML
-    Button deleteCategoryButton;
+    private Button deleteCategoryButton;
 
     // Fields
-    ObservableList<Category> categoriesList = FXCollections.observableArrayList();
-    OrderData orderData = OrderData.getInstance();
-    Category currentlySelectedCategory;
+    private ObservableList<Category> categoriesList = FXCollections.observableArrayList();
+    private OrderData orderData = OrderData.getInstance();
+    private Category currentlySelectedCategory;
 
     @FXML
     public void initialize() { // During init of ManagerController

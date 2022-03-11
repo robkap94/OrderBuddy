@@ -7,9 +7,9 @@ public class EditCategoryDialogController {
 
     // FXML Field
     @FXML
-    TextField oldNameTextField;
+    private TextField oldNameTextField;
     @FXML
-    TextField newNameTextField;
+    private TextField newNameTextField;
 
     @FXML
     public void initialize() {

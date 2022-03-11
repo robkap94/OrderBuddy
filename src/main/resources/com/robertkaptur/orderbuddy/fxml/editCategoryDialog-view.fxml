@@ -18,7 +18,7 @@
     </rowConstraints>
     <children>
         <Label fx:id="oldNameLabel" text="Old name" />
-        <TextField fx:id="oldNameTextField" disable="true" GridPane.columnIndex="1" />
+        <TextField fx:id="oldNameTextField" editable="false" GridPane.columnIndex="1" />
         <Label fx:id="newNameLabel" text="New name" GridPane.rowIndex="1" />
         <TextField fx:id="newNameTextField" promptText="Enter new category name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     </children>
