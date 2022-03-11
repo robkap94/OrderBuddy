@@ -97,7 +97,8 @@ public class ManagerController {
     protected void onDeleteButtonClicked() {
         if(currentlySelectedOrder != null) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete order '" + currentlySelectedOrder.getTitle() + "'?", ButtonType.YES, ButtonType.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete order 'id " + currentlySelectedOrder.getId()
+                    + ": " + currentlySelectedOrder.getTitle() + "'?", ButtonType.YES, ButtonType.NO);
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.showAndWait();
 
