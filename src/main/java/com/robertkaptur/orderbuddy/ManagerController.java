@@ -224,7 +224,7 @@ public class ManagerController {
         categoryOrderDetailField.setText(selectedOrder.getCategory());
         priceOrderDetailField.setText(String.valueOf(selectedOrder.getPrice()));
         descriptionOrderDetailField.setText(selectedOrder.getDescription());
-        // TODO: Add dates update
+        // TODO: Add dates update in Feature #58
     }
 
     private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour
