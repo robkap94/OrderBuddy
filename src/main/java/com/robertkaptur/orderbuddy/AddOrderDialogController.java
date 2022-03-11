@@ -9,18 +9,18 @@ public class AddOrderDialogController {
 
     // FXML Fields
     @FXML
-    TextField titleTextField;
+    private TextField titleTextField;
     @FXML
-    ComboBox categoryComboBox;
+    private ComboBox<Category> categoryComboBox;
     @FXML
-    TextField priceTextField;
+    private TextField priceTextField;
     @FXML
-    TextArea descriptionTextArea;
+    private TextArea descriptionTextArea;
 
     // Fields
-    ObservableList<Category> categoryObservableList = FXCollections.observableArrayList();
-    OrderData orderData = OrderData.getInstance();
-    Category selectedCategory;
+    private ObservableList<Category> categoryObservableList = FXCollections.observableArrayList();
+    private OrderData orderData = OrderData.getInstance();
+    private Category selectedCategory;
 
     @FXML
     private void initialize() {
@@ -31,7 +31,7 @@ public class AddOrderDialogController {
 
     public Order processOrder() { // Processing order in window dialog
         String title = titleTextField.getText().trim();
-        selectedCategory = (Category) categoryComboBox.getValue();
+        selectedCategory = categoryComboBox.getValue();
         String category = selectedCategory.getCategoryName();
         double price = Double.parseDouble(priceTextField.getText().trim());
         String description = descriptionTextArea.getText().trim();

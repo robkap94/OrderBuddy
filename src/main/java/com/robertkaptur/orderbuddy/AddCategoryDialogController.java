@@ -7,7 +7,7 @@ public class AddCategoryDialogController {
 
     // FXML Field
     @FXML
-    TextField nameTextField;
+    private TextField nameTextField;
 
     public Category processCategory() { // Processing category in window dialog
         String name = nameTextField.getText().trim();

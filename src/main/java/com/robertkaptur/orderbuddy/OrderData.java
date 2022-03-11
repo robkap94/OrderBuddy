@@ -156,11 +156,27 @@ public class OrderData {
         try (Connection connection = DriverManager.getConnection(dbUrl)) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
-                // TODO: Change "category" int into String as soon as it will be changed into dropdown list (Temporary due to sql db structure (id_category) [#52 issue]
                 String queryAddOrder = "INSERT into orders VALUES (" + newOrder.getId() + ", '" + newOrder.getTitle() + "', " +
                         selectedCategory.getId() + ", " + newOrder.getPrice() + ", '" + newOrder.getDescription() +
                         "', '" + newOrder.getDateOfOrder() + "', '" + newOrder.getDateOfDelivery() + "');";
                 statement.executeUpdate(queryAddOrder);
+                statement.close();
+
+            } else {
+                System.out.println("Cannot connect to sql db");
+            }
+        }
+    }
+
+    public void editOrderInSqlDatabase(Order changedOrder, Category selectedCategory) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(dbUrl)) {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                String queryEditOrder = "UPDATE orders SET title = '" + changedOrder.getTitle() + "', id_category = " + selectedCategory.getId()
+                        + ", price = " + changedOrder.getPrice() + ", description = '" + changedOrder.getDescription()
+                        + "', date_of_order = '" + changedOrder.getDateOfOrder() + "', date_of_delivery = '"
+                        + changedOrder.getDateOfDelivery() + "' WHERE id = " + changedOrder.getId() + ";";
+                statement.executeUpdate(queryEditOrder);
                 statement.close();
 
             } else {
