@@ -218,6 +218,21 @@ public class ManagerController {
     }
 
     @FXML
+    protected void showAboutWindow() { // Opening category manager window
+
+        // Initializing, declaring and processing Dialog Window to show About page
+
+        Stage aboutStage = new Stage();
+        try {
+            AppWindow aboutWindow = new AppWindow(aboutStage, "about-view.fxml", 400, 400,
+                    0.5, "About Order Buddy", false, true);
+            aboutWindow.resizableWindow(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void showOrderDetailsInPane(Order selectedOrder) {
         titleOrderDetailField.setText(selectedOrder.getTitle());
         idOrderDetailField.setText(String.valueOf(selectedOrder.getId()));
