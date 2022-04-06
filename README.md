@@ -1,5 +1,6 @@
 # OrderBuddy
 My first project on JavaFX - Simple manager for collecting orders and additional window, for customers, to display queue of their order.
+*Please be informed that purpose of this project was to test my skills of Java & JavaFX after finishing Java's Masterclass course. Hence, I've started this project and after some time decided to proceed further - to learn and practise Spring framework. Hence, since 06/04/2022 cancelling rest of tasks but not deleting them. Feel free to contribute :)*
 
 ## Installation
 
@@ -30,23 +31,20 @@ Finished on: 28/01/2022
 
 Date of start: 04/03/2022  
 Scope of time: 3 weeks  
-Finished on: not yet  
+Finished on: 06/04/2022
+Details: I've finished last task and cancelled rest of the tasks/issues/feature for alpha and beta release. The reason of aborting this project is to start new project in Spring technology. Unfortunately, JavaFX is obsolete framework but still - it was great adventure to prepare some basic program as a first project after finishing Java course :)
 
 
 ### Beta version  
 
-Date of start: not yet  
-Scope of time: 2 weeks  
-Finished on: not yet  
+Never releaser
 
 
 ### Stable version - 1.0  
 
-Date of start: not yet  
-Scope of time: 1 week  
-Finished on: not yet  
+Never released
 
 
 ## Contributing
 
-*TODO*
+*TODO but feel free to contact me or to contribute and finish cancelled tasks :)*
