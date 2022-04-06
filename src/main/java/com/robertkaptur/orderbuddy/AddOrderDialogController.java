@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AddOrderDialogController {
 
     // FXML Fields
@@ -16,6 +19,8 @@ public class AddOrderDialogController {
     private TextField priceTextField;
     @FXML
     private TextArea descriptionTextArea;
+    @FXML
+    private DatePicker deliveryDatePicker;
 
     // Fields
     private ObservableList<Category> categoryObservableList = FXCollections.observableArrayList();
@@ -35,6 +40,10 @@ public class AddOrderDialogController {
         String category = selectedCategory.getCategoryName();
         double price = Double.parseDouble(priceTextField.getText().trim());
         String description = descriptionTextArea.getText().trim();
+        // Current time
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateOfOrder = formatter.format(new Date(System.currentTimeMillis()));
+        String dateOfDelivery = deliveryDatePicker.getValue().toString();
 
         return new Order(title, category, price, description, "Some date of order", "Some date of delivery");
 
