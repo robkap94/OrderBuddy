@@ -45,7 +45,7 @@ public class AddOrderDialogController {
         String dateOfOrder = formatter.format(new Date(System.currentTimeMillis()));
         String dateOfDelivery = deliveryDatePicker.getValue().toString();
 
-        return new Order(title, category, price, description, "Some date of order", "Some date of delivery");
+        return new Order(title, category, price, description, dateOfOrder, dateOfDelivery);
 
         /* TODO: PLEASE NOTICE TO REBUILD Dates in object creation:
         a) Date of Creation is CURRENT DATE in ISO_LOCAL_DATE_TIME

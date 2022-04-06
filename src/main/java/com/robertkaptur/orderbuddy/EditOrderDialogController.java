@@ -3,10 +3,7 @@ package com.robertkaptur.orderbuddy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class EditOrderDialogController {
 
@@ -20,6 +17,8 @@ public class EditOrderDialogController {
     @FXML
     private TextArea oldDescriptionTextArea;
     @FXML
+    private TextField oldDODField;
+    @FXML
     private TextField newTitleTextField;
     @FXML
     private ComboBox<Category> newCategoryComboBox;
@@ -27,6 +26,8 @@ public class EditOrderDialogController {
     private TextField newPriceTextField;
     @FXML
     private TextArea newDescriptionTextArea;
+    @FXML
+    private DatePicker newDateOfDeliveryDatePicker;
 
     // Fields
     private ObservableList<Category> categoriesList = FXCollections.observableArrayList();
@@ -37,6 +38,7 @@ public class EditOrderDialogController {
     private String category;
     private double price;
     private String description;
+    private String dateOfDelivery;
 
     @FXML
     public void initialize() { // During init of ManagerController
@@ -50,6 +52,7 @@ public class EditOrderDialogController {
         oldCategoryTextField.setText(order.getCategory());
         oldPriceTextField.setText(String.valueOf(order.getPrice()));
         oldDescriptionTextArea.setText(order.getDescription());
+        oldDODField.setText(order.getDateOfDelivery());
     }
 
     public void modifyOrder() {
@@ -58,12 +61,7 @@ public class EditOrderDialogController {
         category = selectedCategory.getCategoryName();
         price = Double.parseDouble(newPriceTextField.getText().trim());
         description = newDescriptionTextArea.getText().trim();
-
-        /* TODO: PLEASE NOTICE TO REBUILD Dates in object modify:
-        a) Date of Creation is CURRENT DATE in ISO_LOCAL_DATE_TIME
-        b) Date of Delivery is NULL
-
-        Ensure that these dates will be format into ISO8601*/
+        dateOfDelivery = newDateOfDeliveryDatePicker.getValue().toString();
     }
 
     public Category getSelectedCategory() {
@@ -84,6 +82,10 @@ public class EditOrderDialogController {
 
     public String getNewDescription() {
         return description;
+    }
+
+    public DatePicker getNewDateOfDeliveryDatePicker() {
+        return newDateOfDeliveryDatePicker;
     }
 
     private void updateComboBoxCellFactory() { // Updating way of CellFactory's behaviour

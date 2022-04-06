@@ -49,9 +49,9 @@ public class ManagerController {
     @FXML
     private TextArea descriptionOrderDetailField;
     @FXML
-    private DatePicker dooOrderDetailField;
+    private TextField dooOrderDetailField;
     @FXML
-    private DatePicker dodOrderDetailField;
+    private TextField dodOrderDetailField;
 
 
     // Fields
@@ -189,6 +189,7 @@ public class ManagerController {
             currentlySelectedOrder.setCategory(editOrderDialogController.getNewCategory());
             currentlySelectedOrder.setPrice(editOrderDialogController.getNewPrice());
             currentlySelectedOrder.setDescription(editOrderDialogController.getNewDescription());
+            currentlySelectedOrder.setDateOfDelivery(editOrderDialogController.getNewDateOfDeliveryDatePicker().getValue().toString());
             ordersListView.refresh();
             ordersListView.getSelectionModel().select(currentlySelectedOrder); // Selecting, on ListView, modified order
 
@@ -239,7 +240,8 @@ public class ManagerController {
         categoryOrderDetailField.setText(selectedOrder.getCategory());
         priceOrderDetailField.setText(String.valueOf(selectedOrder.getPrice()));
         descriptionOrderDetailField.setText(selectedOrder.getDescription());
-        // TODO: Add dates update in Feature #58
+        dooOrderDetailField.setText(selectedOrder.getDateOfOrder());
+        dodOrderDetailField.setText(selectedOrder.getDateOfDelivery());
     }
 
     private void updateListViewCellFactory() { // Updating way of CellFactory's behaviour
