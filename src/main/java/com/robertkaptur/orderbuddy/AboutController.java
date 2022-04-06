@@ -25,8 +25,7 @@ public class AboutController {
             "Also this app is my first real-life project, for portfolio, after learning basics of programming in Java. \n\n" +
             "Current version: alpha \n" +
             "Established on 14/03/2022";
-    final String authorsContent = "Robert Kaptur - Main Developer, Idea, Tests, Design \n" +
-            "Name Surname 2 - Tests";
+    final String authorsContent = "Robert Kaptur - Main Developer, Idea, Tests, Design";
     final String contactFirstLineLabelContent = "Robert Kaptur";
     final String contactFirstLineHyperlinkContent = "rob.kaptur@gmail.com";
     final String contactSecondLineLabelContent = "Project's GitHub";
