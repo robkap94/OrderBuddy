@@ -31,8 +31,8 @@ Finished on: 28/01/2022
 
 Date of start: 04/03/2022  
 Scope of time: 3 weeks  
-Finished on: 06/04/2022
-Details: I've finished last task and cancelled rest of the tasks/issues/feature for alpha and beta release. The reason of aborting this project is to start new project in Spring technology. Unfortunately, JavaFX is obsolete framework but still - it was great adventure to prepare some basic program as a first project after finishing Java course :)
+Finished on: 06/04/2022  
+*Details: I've finished last task and cancelled rest of the tasks/issues/feature for alpha and beta release. The reason of aborting this project is to start new project in Spring technology. Unfortunately, JavaFX is obsolete framework but still - it was great adventure to prepare some basic program as a first project after finishing Java course :)*
 
 
 ### Beta version  
